@@ -1,0 +1,158 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title class="center-title">Customer Registration</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="customerForm" (ngSubmit)="openConfirmationDialog()">
+        <div class="form-container">
+          <!-- Personal Details -->
+          <mat-card class="form-section">
+            <mat-card-header>
+              <mat-card-title>Personal Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required maxlength="50">
+                <mat-error *ngIf="customerForm.get('name')?.hasError('required')">Name is required</mat-error>
+                <mat-error *ngIf="customerForm.get('name')?.hasError('maxlength')">Name cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('name')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email_id" type="email" required maxlength="100">
+                <mat-error *ngIf="customerForm.get('email_id')?.hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="customerForm.get('email_id')?.hasError('email')">Invalid email format</mat-error>
+                <mat-error *ngIf="customerForm.get('email_id')?.hasError('maxlength')">Email cannot exceed 100 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('email_id')?.value?.length || 0}}/100</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Phone</mat-label>
+                <input matInput formControlName="phone_no" required maxlength="15" 
+                       pattern="\d{3}-\d{3}-\d{4}" placeholder="123-456-7890">
+                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('required')">Phone number is required</mat-error>
+                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('pattern')">Format: XXX-XXX-XXXX</mat-error>
+                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('maxlength')">Phone number cannot exceed 15 characters</mat-error>
+                <mat-hint>Format: XXX-XXX-XXXX</mat-hint>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+  
+          <!-- Address Details -->
+          <mat-card class="form-section">
+            <mat-card-header>
+              <mat-card-title>Address Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="fill">
+                <mat-label>Address Line 1</mat-label>
+                <input matInput formControlName="add_1" required maxlength="100">
+                <mat-error *ngIf="customerForm.get('add_1')?.hasError('required')">Address Line 1 is required</mat-error>
+                <mat-error *ngIf="customerForm.get('add_1')?.hasError('maxlength')">Address Line 1 cannot exceed 100 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('add_1')?.value?.length || 0}}/100</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Address Line 2</mat-label>
+                <input matInput formControlName="add_2" maxlength="100">
+                <mat-error *ngIf="customerForm.get('add_2')?.hasError('maxlength')">Address Line 2 cannot exceed 100 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('add_2')?.value?.length || 0}}/100</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" required maxlength="50">
+                <mat-error *ngIf="customerForm.get('city')?.hasError('required')">City is required</mat-error>
+                <mat-error *ngIf="customerForm.get('city')?.hasError('maxlength')">City cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('city')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" required maxlength="50">
+                <mat-error *ngIf="customerForm.get('state')?.hasError('required')">State is required</mat-error>
+                <mat-error *ngIf="customerForm.get('state')?.hasError('maxlength')">State cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('state')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Zip Code</mat-label>
+                <input matInput formControlName="zipcd" required pattern="\d{5}" maxlength="5" placeholder="12345">
+                <mat-error *ngIf="customerForm.get('zipcd')?.hasError('required')">Zip Code is required</mat-error>
+                <mat-error *ngIf="customerForm.get('zipcd')?.hasError('pattern')">5-digit zip code required</mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" maxlength="50">
+                <mat-error *ngIf="customerForm.get('country')?.hasError('maxlength')">Country cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('country')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+  
+          <!-- Additional Details -->
+          <mat-card class="form-section">
+            <mat-card-header>
+              <mat-card-title>Additional Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="fill">
+                <mat-label>Driver's License</mat-label>
+                <input matInput formControlName="dl_no" required maxlength="50">
+                <mat-error *ngIf="customerForm.get('dl_no')?.hasError('required')">Driver's License is required</mat-error>
+                <mat-error *ngIf="customerForm.get('dl_no')?.hasError('maxlength')">Driver's License cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('dl_no')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Visa</mat-label>
+                <input matInput formControlName="visa" maxlength="20">
+                <mat-error *ngIf="customerForm.get('visa')?.hasError('maxlength')">Visa cannot exceed 20 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('visa')?.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Referral Name</mat-label>
+                <input matInput formControlName="referr_name" maxlength="50">
+                <mat-error *ngIf="customerForm.get('referr_name')?.hasError('maxlength')">Referral Name cannot exceed 50 characters</mat-error>
+                <mat-hint align="end">{{customerForm.get('referr_name')?.value?.length || 0}}/50</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Referral Phone</mat-label>
+                <input matInput formControlName="referr_phno" maxlength="15" 
+                       pattern="\d{3}-\d{3}-\d{4}" placeholder="123-456-7890">
+                <mat-error *ngIf="customerForm.get('referr_phno')?.hasError('pattern')">Format: XXX-XXX-XXXX</mat-error>
+                <mat-error *ngIf="customerForm.get('referr_phno')?.hasError('maxlength')">Referral Phone cannot exceed 15 characters</mat-error>
+                <mat-hint>Format: XXX-XXX-XXXX</mat-hint>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                  <mat-option *ngFor="let status of statusOptions" [value]="status">
+                    {{status}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="customerForm.get('status')?.hasError('required')">Status is required</mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Category</mat-label>
+                <input matInput formControlName="category" required>
+                <mat-error *ngIf="customerForm.get('category')?.hasError('required')">Category is required</mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+  
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid">Submit</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

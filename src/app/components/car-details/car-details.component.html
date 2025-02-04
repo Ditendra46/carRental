@@ -1,0 +1,120 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+
+  <div class="container">
+    <!-- Car Information Section -->
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="section">
+          <h3>Car Information</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Car Make</mat-label>
+            <mat-select formControlName="make">
+              <mat-option *ngFor="let make of carMakes" [value]="make">{{ make }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" >
+            <mat-label>Car Model</mat-label>
+            <mat-select formControlName="model">
+              <mat-option *ngFor="let make of carModels" [value]="make">{{ make }}</mat-option>
+            </mat-select>          
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Year</mat-label>
+            <mat-select formControlName="year"  required>
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="carForm.get('year')?.hasError('required')">Year is required</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Vehicle Type</mat-label>
+            <mat-select formControlName="vehicleType">
+              <mat-option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Specifications Section -->
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="section">
+          <h3>Specifications</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Engine Capacity (cc)</mat-label>
+            <input matInput type="number" placeholder="Enter engine capacity" formControlName="engineCapacity" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Fuel Type</mat-label>
+            <mat-select formControlName="fuelType">
+              <mat-option *ngFor="let fuel of fuelTypes" [value]="fuel">{{ fuel }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Transmission</mat-label>
+            <mat-select formControlName="transmission">
+              <mat-option *ngFor="let transmission of transmissions" [value]="transmission">{{ transmission
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Car Color</mat-label>
+            <input matInput placeholder="Enter color" formControlName="carColor"/>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Registration Details Section -->
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="section">
+          <h3>Registration Details</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>License Plate</mat-label>
+            <input matInput placeholder="Enter license plate" formControlName="licensePlate" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Registration Date</mat-label>
+            <input matInput [matDatepicker]="pick"  formControlName="registrationDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="pick"></mat-datepicker-toggle>
+            <mat-datepicker #pick></mat-datepicker>
+          </mat-form-field>
+         
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Additional Details Section -->
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="section">
+          <h3>Additional Details</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Seating Capacity</mat-label>
+            <input matInput type="number" placeholder="Enter seating capacity" formControlName="seatingCapacity" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mileage (km)</mat-label>
+            <input matInput type="number" placeholder="Enter mileage" formControlName="mileage"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" placeholder="Enter price" formControlName="price" />
+          </mat-form-field>
+          <div class="upload">
+            <label>Car Image</label>
+            <input type="file" formControlName="carImage"/>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Buttons -->
+   
+  </div>
+  <div class="button-group">
+    <button mat-raised-button color="warn">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>

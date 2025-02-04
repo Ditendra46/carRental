@@ -1,0 +1,10 @@
+<div class="dialog-container">
+    <h1 mat-dialog-title>Confirm Submission</h1>
+    <mat-dialog-content>
+      <p>Are you sure you want to submit the form?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="onConfirm()">Confirm</button>
+    </mat-dialog-actions>
+  </div>

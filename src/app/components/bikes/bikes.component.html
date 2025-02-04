@@ -1,0 +1,70 @@
+<div class="bikes-container">
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <h2>Filters</h2>
+    <div class="filter-group">
+      <select [(ngModel)]="filters.type">
+        <option value="">All Types</option>
+        <option value="mountain">Mountain Bike</option>
+        <option value="electric">Electric Bike</option>
+        <option value="hybrid">Hybrid Bike</option>
+        <option value="road">Road Bike</option>
+      </select>
+
+      <select [(ngModel)]="filters.priceRange">
+        <option value="">All Prices</option>
+        <option value="0-30">$0 - $30</option>
+        <option value="31-50">$31 - $50</option>
+        <option value="51+">$51+</option>
+      </select>
+
+      <select [(ngModel)]="filters.availability">
+        <option value="">All Status</option>
+        <option value="available">Available</option>
+        <option value="rented">Rented</option>
+      </select>
+
+      <button (click)="applyFilters()">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- Bikes Grid -->
+  <div class="bikes-grid">
+    <div class="bike-card" *ngFor="let bike of bikes">
+      <div class="bike-image">
+        <img [src]="bike.image" [alt]="bike.name">
+        <span class="availability-badge" [class.available]="bike.available">
+          {{bike.available ? 'Available' : 'Rented'}}
+        </span>
+      </div>
+
+      <div class="bike-details">
+        <h3>{{bike.name}}</h3>
+        <div class="bike-type">{{bike.type}}</div>
+        
+        <div class="specs">
+          <div class="spec-item" *ngFor="let spec of bike.specs | keyvalue">
+            <span class="spec-label">{{spec.key}}:</span>
+            <span class="spec-value">{{spec.value}}</span>
+          </div>
+        </div>
+
+        <div class="bike-footer">
+          <div class="price-rating">
+            <div class="price">${{bike.price}}/day</div>
+            <div class="rating">
+              <i class="fas fa-star"></i>
+              {{bike.rating}}
+            </div>
+          </div>
+          <button 
+            [disabled]="!bike.available"
+            (click)="rentBike(bike.id)"
+            class="rent-button">
+            {{bike.available ? 'Rent Now' : 'Not Available'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

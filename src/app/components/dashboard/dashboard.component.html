@@ -1,0 +1,87 @@
+<div class="dashboard-container">
+  <!-- Stats Cards -->
+   
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🚲</div>
+      <div class="stat-content">
+        <h3>Total Bikes</h3>
+        <p>{{stats.totalBikes}}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <h3>Available</h3>
+        <p>{{stats.availableBikes}}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔄</div>
+      <div class="stat-content">
+        <h3>Active Rentals</h3>
+        <p>{{stats.activeRentals}}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <h3>Revenue</h3>
+        <p>${{stats.totalRevenue}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="content-grid">
+    <!-- Recent Bookings -->
+    <div class="bookings-section">
+      <h2>Recent Bookings</h2>
+      <div class="bookings-table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Bike</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of recentBookings">
+              <td>{{booking.id}}</td>
+              <td>{{booking.customerName}}</td>
+              <td>{{booking.bikeName}}</td>
+              <td>{{booking.startDate}}</td>
+              <td>{{booking.endDate}}</td>
+              <td>
+                <span [class]="'status-badge ' + booking.status.toLowerCase()">
+                  {{booking.status}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Popular Bikes -->
+    <div class="popular-bikes-section">
+      <h2>Popular Bikes</h2>
+      <div class="popular-bikes-grid">
+        <div class="bike-card" *ngFor="let bike of popularBikes">
+          <img [src]="bike.image" [alt]="bike.name">
+          <div class="bike-info">
+            <h3>{{bike.name}}</h3>
+            <p>{{bike.rentCount}} rentals</p>
+            <div class="rating">
+              ⭐ {{bike.rating}}/5
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

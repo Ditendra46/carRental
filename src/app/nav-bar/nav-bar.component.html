@@ -1,0 +1,43 @@
+<!-- src/app/navbar/navbar.component.html -->
+<mat-toolbar color="primary">
+  <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+  
+  <span>Car Rental</span>
+  <span class="spacer"></span>
+  <nav>
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="/product-create">Products</a>
+    <a mat-button routerLink="/about">About</a>
+    <a mat-button routerLink="/car-details">Car Details</a>
+    <a mat-button routerLink="/contact">Contact</a>
+
+    <!-- Conditionally display username or login link -->
+    <ng-container *ngIf="username; else loginLink">
+      <mat-icon>account_circle</mat-icon>
+      <a style="padding: 0;" mat-button>{{ username }}</a>
+      <button mat-button (click)="logout()" routerLink="/login">Logout</button>
+    </ng-container>
+    <ng-template #loginLink>
+      <a mat-button routerLink="/login">Login</a>
+    </ng-template>
+  </nav>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" class="sidenav">
+    
+    <ng-container *ngIf="username; else loginLink">
+      <mat-icon>account_circle</mat-icon>
+      <a style="padding: 0;" mat-button>{{ username }}</a>
+      <button mat-button (click)="logout()" routerLink="/login">Logout</button>
+    </ng-container>
+    <ng-template #loginLink>
+      <a mat-button routerLink="/login">Login</a>
+    </ng-template>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- Your main content goes here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

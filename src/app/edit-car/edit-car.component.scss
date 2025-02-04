@@ -1,0 +1,24 @@
+.container {
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 16px; /* Spacing between the cards */
+    padding: 16px; /* Add padding around the container */
+  }
+  
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding-top:5px;
+    
+  
+  }

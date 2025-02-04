@@ -1,0 +1,197 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
+    <div class="form-container">
+      <!-- Row 1: Vehicle Details + Appearance -->
+      <div class="form-row">
+        <!-- Vehicle Details -->
+        <mat-card class="form-section">
+          <mat-card-header>
+            <mat-card-title>Vehicle Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="outline">
+              <mat-label>VIN</mat-label>
+              <input matInput formControlName="vin" required>
+              <mat-error>{{getErrorMessage('vin')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Model</mat-label>
+              <input matInput formControlName="model" required maxlength="50">
+              <mat-error>{{getErrorMessage('model')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('model')?.value?.length || 0}}/50</mat-hint>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Make</mat-label>
+              <input matInput formControlName="make" required maxlength="4">
+              <mat-error>{{getErrorMessage('make')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('make')?.value?.length || 0}}/4</mat-hint>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Odometer</mat-label>
+              <input matInput type="number" formControlName="odo" required min="0">
+              <mat-error>{{getErrorMessage('odo')}}</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+  
+        <!-- Appearance -->
+        <mat-card class="form-section">
+          <mat-card-header>
+            <mat-card-title>Appearance</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="outline">
+              <mat-label>Color</mat-label>
+              <input matInput formControlName="color" required maxlength="30">
+              <mat-error>{{getErrorMessage('color')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('color')?.value?.length || 0}}/30</mat-hint>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Interior Color</mat-label>
+              <input matInput formControlName="int_color" maxlength="30">
+              <mat-error>{{getErrorMessage('int_color')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('int_color')?.value?.length || 0}}/30</mat-hint>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Exterior Color</mat-label>
+              <input matInput formControlName="ext_color" maxlength="30">
+              <mat-error>{{getErrorMessage('ext_color')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('ext_color')?.value?.length || 0}}/30</mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- Row 2: Purchase Info + Pricing -->
+      <div class="form-row">
+        <!-- Purchase Info -->
+        <mat-card class="form-section">
+          <mat-card-header>
+            <mat-card-title>Purchase Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="outline">
+              <mat-label>Source</mat-label>
+              <mat-select formControlName="source" required>
+                <mat-option *ngFor="let option of sourceOptions" [value]="option">{{option}}</mat-option>
+              </mat-select>
+              <mat-error>{{getErrorMessage('source')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Source Name</mat-label>
+              <input matInput formControlName="src_name" required maxlength="50">
+              <mat-error>{{getErrorMessage('src_name')}}</mat-error>
+              <mat-hint align="end">{{carForm.get('src_name')?.value?.length || 0}}/50</mat-hint>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Purpose</mat-label>
+              <mat-select formControlName="purpose" required>
+                <mat-option *ngFor="let option of purposeOptions" [value]="option">{{option}}</mat-option>
+              </mat-select>
+              <mat-error>{{getErrorMessage('purpose')}}</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+  
+        <!-- Pricing -->
+        <mat-card class="form-section">
+          <mat-card-header>
+            <mat-card-title>Pricing Details</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="outline">
+              <mat-label>Buying Price</mat-label>
+              <input matInput type="number" formControlName="buying_price" required min="0">
+              <mat-error>{{getErrorMessage('buying_price')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Sales Tax</mat-label>
+              <input matInput type="number" formControlName="sales_tax" required min="0">
+              <mat-error>{{getErrorMessage('sales_tax')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Retail Price</mat-label>
+              <input matInput type="number" formControlName="retail_price" required min="0">
+              <mat-error>{{getErrorMessage('retail_price')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Wholesale Price</mat-label>
+              <input matInput type="number" formControlName="wholesale_price" required min="0">
+              <mat-error>{{getErrorMessage('wholesale_price')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Rental Amount</mat-label>
+              <input matInput type="number" formControlName="rental_amount" min="0">
+              <mat-error>{{getErrorMessage('rental_amount')}}</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Sold Price</mat-label>
+              <input matInput type="number" formControlName="sold_price" min="0">
+              <mat-error>{{getErrorMessage('sold_price')}}</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- Row 3: Status & Dates -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>Status & Dates</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option *ngFor="let option of statusOptions" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <mat-error>{{getErrorMessage('status')}}</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Procurement Date</mat-label>
+            <input matInput [matDatepicker]="procurePicker" formControlName="procure_date" required>
+            <mat-datepicker-toggle matSuffix [for]="procurePicker"></mat-datepicker-toggle>
+            <mat-datepicker #procurePicker></mat-datepicker>
+            <mat-error>{{getErrorMessage('procure_date')}}</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Ready Date</mat-label>
+            <input matInput [matDatepicker]="readyPicker" formControlName="ready_date">
+            <mat-datepicker-toggle matSuffix [for]="readyPicker"></mat-datepicker-toggle>
+            <mat-datepicker #readyPicker></mat-datepicker>
+            <mat-error>{{getErrorMessage('ready_date')}}</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Sales Date</mat-label>
+            <input matInput [matDatepicker]="salesPicker" formControlName="sales_date">
+            <mat-datepicker-toggle matSuffix [for]="salesPicker"></mat-datepicker-toggle>
+            <mat-datepicker #salesPicker></mat-datepicker>
+            <mat-error>{{getErrorMessage('sales_date')}}</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Update submit button -->
+<div class="form-actions">
+    <button mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="!carForm.valid">
+      Submit
+    </button>
+  </div>
+    </div>
+  </form>

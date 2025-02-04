@@ -1,0 +1,14 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  mat-icon {
+    margin-left: 8px; /* Add some space between the username and the icon */
+    vertical-align: middle; /* Align the icon with the text */
+  }
+  .sidenav {
+    width: 250px; // Set the width of the sidebar
+  }
+  
+  .mat-sidenav-container {
+    height: 100%; // Ensure the container takes full height
+  }

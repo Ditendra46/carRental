@@ -1,0 +1,78 @@
+/* src/app/components/car-details/car-details.component.scss */
+.car-management-system {
+    padding: 20px;
+  }
+  
+  .form-section {
+    margin-bottom: 20px;
+  }
+  
+  h4 {
+    margin-bottom: 10px;
+  }
+//   mat-card {
+  
+//     max-width: 98%;
+  
+//     margin: 2em auto;
+  
+//     text-align: center;
+  
+//   }
+  
+// mat-card-content{
+//   display:flex;
+  
+// }
+//   mat-form-field {
+  
+//     display: block;
+  
+//   }
+//   mat-mdc-card-title{
+//     color:blue
+//   }
+// .card-container {
+//   display: inline;
+//   flex-wrap: wrap; /* Ensures cards wrap to the next row if they exceed the container width */
+//   gap: 16px; 
+//   width:100%
+//   /* Adds space between the cards */
+// }
+
+// .card {
+//   flex: 1 1 calc(33.33% - 16px); /* Adjusts width to one-third of the container, minus the gap */
+//   max-width: 300px; /* Optional: Sets a maximum width for each card */
+//   box-sizing: border-box;
+// }
+// .container {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates responsive columns */
+//   gap: 16px; /* Adds space between the cards */
+// }
+
+// .card {
+//   box-sizing: border-box;
+// }
+.container {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 16px; /* Spacing between the cards */
+  padding: 16px; /* Add padding around the container */
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top:5px;
+
+}
