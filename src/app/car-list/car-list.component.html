@@ -1,0 +1,38 @@
+<div class="car-list-container">
+    <div class="header">
+      <h2>Available Cars</h2>
+      <button mat-raised-button color="primary" routerLink="/cars/add">
+        <mat-icon>add</mat-icon>
+        Add New Car
+      </button>
+    </div>
+  
+    <div class="loading-error" *ngIf="loading || error">
+      <mat-spinner *ngIf="loading"></mat-spinner>
+      <p class="error-message" *ngIf="error">{{error}}</p>
+    </div>
+  
+    <div class="car-grid" *ngIf="!loading && !error">
+      <mat-card *ngFor="let car of cars" class="car-card">
+        <mat-card-header>
+          <mat-card-title>{{car.make}} - {{car.model}}</mat-card-title>
+          <mat-card-subtitle>VIN: {{car.vin}}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p><strong>Color:</strong> {{car.color}}</p>
+          <p><strong>Status:</strong> {{car.status}}</p>
+          <p><strong>Procured:</strong> {{car.procure_date | date}}</p>
+        </mat-card-content>
+  
+        <mat-card-actions align="end">
+          <button mat-button color="primary" (click)="onEdit(car)">
+            <mat-icon>visibility</mat-icon> View
+          </button>
+          <button mat-button color="warn" (click)="onDelete(car)">
+            <mat-icon>delete</mat-icon> Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

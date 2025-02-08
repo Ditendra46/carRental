@@ -20,6 +20,7 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit() {
     this.subscribeToFormChanges();
+    
   }
 
   private initForm(): void {

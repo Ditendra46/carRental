@@ -71,7 +71,86 @@ const addCar = async (req, res) => {
   }
 };
 
+const deleteCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      throw new Error('Car ID is required');
+    }
+
+    const { error } = await supabase
+      .from('cars')
+      .delete()
+      .eq('car_id', id);
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      message: 'Car deleted successfully'
+    });
+  } catch (error) {
+    console.error('Delete car error:', error);
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
+const getCarById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('cars')
+      .select('*')
+      .eq('car_id', id)
+      .single();
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      data: data
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
+const updateCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('cars')
+      .update(req.body)
+      .eq('car_id', id)
+      .select();
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      data: data,
+      message: 'Car updated successfully'
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
+
 module.exports = {
   getAllCars,
-  addCar
+  addCar,
+  deleteCar,
+  getCarById,
+  updateCar
 };

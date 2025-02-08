@@ -185,13 +185,30 @@
       </mat-card>
   
       <!-- Update submit button -->
-<div class="form-actions">
-    <button mat-raised-button 
-            color="primary" 
-            type="submit" 
-            [disabled]="!carForm.valid">
-      Submit
-    </button>
-  </div>
+      <div class="form-actions">
+        <button *ngIf="!isEdit" mat-raised-button 
+                color="warn" 
+                type="button" 
+                (click)="onReset()">
+          Reset
+        </button>
+        <button *ngIf="isEdit" mat-raised-button 
+                color="warn" 
+                type="button" 
+                (click)="editCar()">
+          Edit
+        </button>
+        <button *ngIf="!isEdit" mat-raised-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="!carForm.valid">
+          Submit
+        </button>
+        <button *ngIf="isEdit" mat-raised-button 
+                color="primary" 
+                type="submit">
+          Update
+        </button>
+      </div>
     </div>
   </form>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface CarFormSections {
   vehicleDetails: string[];
@@ -19,7 +20,6 @@ export const FORM_SECTIONS: CarFormSections = {
   pricing: ['buying_price', 'sales_tax', 'retail_price', 'wholesale_price', 'rental_amount', 'sold_price'],
   statusDates: ['status', 'procure_date', 'ready_date', 'sales_date']
 };
-
 @Component({
   selector: 'app-car-form',
   templateUrl: './car-form.component.html',
@@ -31,19 +31,47 @@ export class CarFormComponent implements OnInit {
   sourceOptions: string[] = ['Auction', 'Individual'];
   purposeOptions: string[] = ['Sale', 'Rent', 'Own'];
   statusOptions: string[] = ['Repair', 'Sold', 'Rented', 'In Market'];
-
+  isEditMode = false;
+  isEdit: boolean = false;
+  carId: number | null = null;
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: ActivatedRoute,
+    public route: Router
   ) {
     this.initForm();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.subscribeToFormChanges();
+    this.router.params.subscribe(params => {
+      if (params['id']) {
+        this.isEdit = true;
+        this.carId = +params['id'];
+        this.loadCarData(this.carId);
+        this.carForm.disable();
+      }
+    });
   }
 
+
+  editCar(){
+        this.carForm.enable();
+      }
+
+
+  private loadCarData(id: number | null): void {
+    this.http.get(`http://localhost:3000/api/cars/${id}`).subscribe({
+      next: (response: any) => {
+        if (response.success && response.data) {
+          this.carForm.patchValue(response.data);
+        }
+      },
+      error: (error) => console.error('Error loading car:', error)
+    });
+  }
   private initForm(): void {
     this.carForm = this.fb.group({
       vin: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
@@ -133,28 +161,39 @@ export class CarFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.carForm.valid) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '350px',
-        data: { title: 'Confirm Submission', message: 'Are you sure you want to submit?' }
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.http.post('http://localhost:3000/api/cars', this.carForm.value).subscribe({
-            next: (response: any) => {
-              if (response.success) {
-                console.log('Car added successfully');
-                this.carForm.reset();
-              }
-            },
-            error: (error) => {
-              console.error('Error adding car:', error);
-            }
-          });
-        }
+      if (this.carForm.valid) {
+      const url = this.isEdit
+        ? `http://localhost:3000/api/cars/${this.carId}`
+        : 'http://localhost:3000/api/cars';
+
+      const method = this.isEdit ? 'put' : 'post';
+      console.log('Form:', this.carForm.value);
+
+      this.http[method](url, this.carForm.value).subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            this.route.navigate(['/car-list']);
+          }
+        },
+        error: (error) => console.error('Error:', error)
       });
     }
+    }
+  
+  onReset(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: { 
+        title: 'Confirm Reset', 
+        message: 'Are you sure you want to reset the form? All data will be lost.' 
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.carForm.reset();
+      }
+    });
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
