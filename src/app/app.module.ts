@@ -34,6 +34,10 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { ValidationService } from './services/validation.service';
 import { CarListComponent } from './car-list/car-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CustomerListComponent } from './customer-list/customer-list.component';
+import { RentFormComponent } from './rent-form/rent-form.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CarFormComponent,
     ConfirmationDialogComponent,
     CarListComponent,
-    CarListComponent
+    CarListComponent,
+    CustomerListComponent,
+    CustomerListComponent,
+    RentFormComponent
+    
     
   ],
   imports: [
@@ -73,7 +81,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowserAnimationsModule,
     MatDialogModule,
     MatSidenavModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule,
+    MatAutocompleteModule
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

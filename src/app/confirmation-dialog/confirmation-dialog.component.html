@@ -1,7 +1,7 @@
 <div class="dialog-container">
-    <h1 mat-dialog-title>Confirm Submission</h1>
+    <h1 mat-dialog-title>{{data.title}}</h1>
     <mat-dialog-content>
-      <p>Are you sure you want to submit the form?</p>
+      <p>{{data.message}}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancel</button>

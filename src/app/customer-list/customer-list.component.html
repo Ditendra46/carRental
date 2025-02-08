@@ -1,0 +1,39 @@
+<div class="customer-list-container">
+    <div class="header">
+      <h2>Available Customers</h2>
+      <button mat-raised-button color="primary" routerLink="/customers/add">
+        <mat-icon>add</mat-icon>
+        Add New Customer
+      </button>
+    </div>
+  
+    <div class="loading-error" *ngIf="loading || error">
+      <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+      <p class="error-message" *ngIf="error">{{error}}</p>
+    </div>
+  
+    <div class="customer-grid" *ngIf="!loading && !error">
+      <mat-card *ngFor="let customer of customers" class="customer-card">
+        <mat-card-header>
+          <mat-card-title>{{customer.name}}</mat-card-title>
+          <mat-card-subtitle>Email: {{customer.email_id}}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p><strong>Phone:</strong> {{customer.phone_no}}</p>
+          <p><strong>City:</strong> {{customer.city}}</p>
+          <p><strong>State:</strong> {{customer.state}}</p>
+          <p><strong>Status:</strong> {{customer.status}}</p>
+        </mat-card-content>
+  
+        <mat-card-actions align="end">
+          <button mat-button color="primary" (click)="onEdit(customer)">
+            <mat-icon>visibility</mat-icon> View
+          </button>
+          <button mat-button color="warn" (click)="onDelete(customer)">
+            <mat-icon>delete</mat-icon> Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

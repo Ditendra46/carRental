@@ -6,6 +6,8 @@ require('dotenv').config();
 const dateFormatter = require('./middleware/dateFormatter');
 const customerRoutes = require('./routes/customerRoutes');
 const carRoutes = require('./routes/carRoutes');
+const rentalRoutes = require('./routes/rentRoutes');
+
 
 // Initialize express
 const app = express();
@@ -19,6 +21,7 @@ app.use(dateFormatter);
 // Routes
 app.use('/api/customers', customerRoutes);
 app.use('/api/cars', carRoutes);
+app.use('/api/rentals', rentalRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

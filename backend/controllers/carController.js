@@ -145,6 +145,31 @@ const updateCar = async (req, res) => {
     });
   }
 };
+const updateCarStatusToRented = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('cars')
+      .update({ status: 'Rented' })
+      .eq('car_id_formatted', id)
+      .select();
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      data: data,
+      message: 'Car status updated to rented successfully'
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
+
 
 
 module.exports = {
@@ -152,5 +177,6 @@ module.exports = {
   addCar,
   deleteCar,
   getCarById,
-  updateCar
+  updateCar,
+  updateCarStatusToRented
 };

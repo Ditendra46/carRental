@@ -23,3 +23,4 @@ export interface Cardetails {
   created_date?: string;
   last_modified_date?: string;
 }
+

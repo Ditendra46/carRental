@@ -151,8 +151,29 @@
   
         <!-- Submit Button -->
         <div class="form-actions">
-          <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid">Submit</button>
-        </div>
+          <button *ngIf="!isEdit" mat-raised-button 
+          color="warn" 
+          type="button" 
+          (click)="onReset()">
+    Reset
+  </button>
+  <button *ngIf="isEdit" mat-raised-button 
+          color="warn" 
+          type="button" 
+          (click)="editCustomer()">
+    Edit
+  </button>
+  <button *ngIf="!isEdit" mat-raised-button 
+          color="primary" 
+          type="submit" 
+          [disabled]="!customerForm.valid">
+    Submit
+  </button>
+  <button *ngIf="isEdit" mat-raised-button 
+          color="primary" 
+          type="submit">
+    Update
+  </button>        </div>
       </form>
     </mat-card-content>
   </mat-card>

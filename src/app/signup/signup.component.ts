@@ -23,7 +23,6 @@ export class SignupComponent {
 
     this.userService.signUp(userData).subscribe(
       response => {
-        console.log('User registered successfully', response);
         this.router.navigate(['/login']); // Redirect to login page
       },
       error => {

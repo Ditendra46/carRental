@@ -57,7 +57,6 @@ export class EditCarComponent implements OnInit {
     this.userService.getCars().subscribe((cars: any[]) => { // Specify the type as any[]
       const car = cars.find(c => c.license_plate === this.licensePlate);
       if (car) {
-        console.log(car)
         this.carForm.patchValue(car);
       }
     });

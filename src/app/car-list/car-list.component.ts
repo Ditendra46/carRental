@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Cardetails } from '../interfaces/Cardetails.interface';
-import { Car } from '../models/car.interface';
+import { Car } from '../interfaces/Car.interface';
 import { Router } from '@angular/router';
 
 
@@ -70,6 +70,11 @@ export class CarListComponent implements OnInit {
           }
         });
       }
+    });
+  }
+  onRent(car: Car): void {
+    this.router.navigate(['/rent', car.car_id], {
+      state: { car: car }
     });
   }
 }

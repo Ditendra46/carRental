@@ -32,6 +32,9 @@
           <button mat-button color="warn" (click)="onDelete(car)">
             <mat-icon>delete</mat-icon> Delete
           </button>
+          <button *ngIf="car.status === 'In Market'" mat-button color="accent" (click)="onRent(car)" style="position: absolute; left: 16px; bottom: 16px;">
+            <mat-icon>directions_car</mat-icon> Rent
+          </button>
         </mat-card-actions>
       </mat-card>
     </div>

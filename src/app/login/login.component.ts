@@ -24,7 +24,6 @@ export class LoginComponent {
 
     this.userService.login(credentials).subscribe({
       next:response => {
-        console.log('User logged in successfully', response);
         // Store user data in local storage or handle session
         localStorage.setItem('user', JSON.stringify(response));
         this.userService.updateUser(response.username)

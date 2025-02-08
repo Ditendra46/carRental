@@ -29,14 +29,12 @@ value='backend/src/assets/product-1737751550734.png'
 
   rentCar(licensePlate: string, event: Event) {
     event.stopPropagation(); // Prevent the click event from bubbling up
-    console.log(`Renting car with license plate: ${licensePlate}`);
     this.router.navigate(['/booking', licensePlate]); // Navigate to booking with license plate
 }
 goToSpecifications(car: any) {
   this.router.navigate(['/bike-dashboard']);//, car.license_plate]); // Navigate to specifications page
 }
 nanvigateToEditCar(lic_plate:string,event:any){
-console.log(lic_plate,event)
 this.router.navigate(['/edit-car', lic_plate]);
 }
 } 

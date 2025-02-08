@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-form',
@@ -13,16 +14,35 @@ export class CustomerFormComponent implements OnInit {
   customerForm!: FormGroup;
   statusOptions: string[] = ['Prospect', 'Active', 'Hold', 'Blocked'];
   formErrors: { [key: string]: string } = {};
+  isEdit: boolean=false;
+  customerId: number |null=null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, public dialog: MatDialog) {
+  constructor(private fb: FormBuilder, private http: HttpClient, public dialog: MatDialog, public router: ActivatedRoute,public route: Router) {
     this.initForm();
   }
 
   ngOnInit() {
     this.subscribeToFormChanges();
+    this.router.params.subscribe(params => {
+      if (params['id']) {
+        this.isEdit = true;
+        this.customerId = +params['id'];
+        this.loadCustomerData(this.customerId);
+        this.customerForm.disable();
+      }
+    });
     
   }
-
+  private loadCustomerData(id: number | null): void {
+    this.http.get(`http://localhost:3000/api/customers/${id}`).subscribe({
+      next: (response: any) => {
+        if (response.success && response.data) {
+          this.customerForm.patchValue(response.data);
+        }
+      },
+      error: (error) => console.error('Error loading car:', error)
+    });
+  }
   private initForm(): void {
     this.customerForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -101,7 +121,12 @@ export class CustomerFormComponent implements OnInit {
 
   openConfirmationDialog(): void {
     if (this.customerForm.valid) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+      const dialogRef = this.dialog.open((ConfirmationDialogComponent), {
+        data:{
+          title: 'Confirm Submission',
+          message: 'Are you sure you want to submit this form?'
+        }
+      });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.onSubmit();
@@ -112,16 +137,24 @@ export class CustomerFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.customerForm.valid) {
-      this.http.post('http://localhost:3000/api/customers', this.customerForm.value).subscribe(
-        response => {
-          console.log('Customer added successfully', response);
-          this.customerForm.reset();
-          Object.keys(this.formErrors).forEach(key => delete this.formErrors[key]);
-        },
-        error => {
-          console.error('Error adding customer', error);
+    const url = this.isEdit
+      ? `http://localhost:3000/api/customers/${this.customerId}`
+      : 'http://localhost:3000/api/customers';
+
+    const method = this.isEdit ? 'put' : 'post';
+
+    this.http[method](url, this.customerForm.value).subscribe({
+      next: (response: any) => {
+        if (response.success) {
+          this.route.navigate(['/customers']);
         }
-      );
-    }
+      },
+      error: (error) => console.error('Error:', error)
+    });
   }
+  }
+  editCustomer(){
+    this.customerForm.enable()
+  }
+  onReset(){}
 }
