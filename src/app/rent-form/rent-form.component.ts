@@ -47,7 +47,8 @@ export class RentFormComponent implements OnInit {
             carDtaForm: {
             vin: response.data.vin, // Assuming inventory_id is the VIN from car data
             model: response.data.model,
-            color: response.data.color
+            color: response.data.color,
+            make: response.data.make
             },
             rentalDetailsForm:{
               inventory_id: response.data.car_id_formatted, // Assuming inventory_id is the VIN from car data
@@ -68,9 +69,11 @@ export class RentFormComponent implements OnInit {
     this.rentForm = this.fb.group({
      carDtaForm:this.fb.group({ vin: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       model: ['', [Validators.required, Validators.maxLength(50)]],
+      make: ['', [Validators.required, Validators.maxLength(50)]],
       color: ['', [Validators.required, Validators.maxLength(30)]],}),
       userData:this.fb.group({
-        phNo: ['', [Validators.required, Validators.pattern(/^\d{3}-\d{3}-\d{4}$/)]],
+        phNo: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
         name: ['', [Validators.required, Validators.maxLength(50)]],
         dlNumber: ['', [Validators.required, Validators.maxLength(30)]],
       }),
@@ -103,7 +106,7 @@ export class RentFormComponent implements OnInit {
   }
   onSubmit(): void {
     if (this.rentForm.valid) {
-      this.http.post('http://localhost:3000/api/rentals', this.rentalDetailsForm.value).pipe(
+      this.http.post('http://localhost:3000/api/rentals', [this.userData.value, this.rentalDetailsForm.value,this.carDetailsForm.value]).pipe(
         concatMap((response: any) => {
           if (response.success) {
             const invId = response.data[0].inventory_id;
@@ -156,7 +159,8 @@ export class RentFormComponent implements OnInit {
             this.rentForm.patchValue( {
               userData:{
              // customer_id: response.data.customer_id, // Assuming inventory_id is the VIN from car data
-              name: customer.name,//response.data.map((element: any) => element.name),
+              name: customer.name,
+              email:customer.email_id,//response.data.map((element: any) => element.name),
               dlNumber: customer.dl_no//response.data.map((element: any) => element.dl_no),
               },
               rentalDetailsForm:{

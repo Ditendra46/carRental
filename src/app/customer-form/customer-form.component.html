@@ -31,11 +31,11 @@
               <mat-form-field appearance="fill">
                 <mat-label>Phone</mat-label>
                 <input matInput formControlName="phone_no" required maxlength="15" 
-                       pattern="\d{3}-\d{3}-\d{4}" placeholder="123-456-7890">
+                       pattern="\d{3}\d{3}\d{4}" placeholder="1234567890">
                 <mat-error *ngIf="customerForm.get('phone_no')?.hasError('required')">Phone number is required</mat-error>
-                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('pattern')">Format: XXX-XXX-XXXX</mat-error>
+                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('pattern')">Format: XXXXXXXXXX</mat-error>
                 <mat-error *ngIf="customerForm.get('phone_no')?.hasError('maxlength')">Phone number cannot exceed 15 characters</mat-error>
-                <mat-hint>Format: XXX-XXX-XXXX</mat-hint>
+                 <mat-hint>Format: XXXXXXXXXX</mat-hint> 
               </mat-form-field>
             </mat-card-content>
           </mat-card>
@@ -124,10 +124,10 @@
               <mat-form-field appearance="fill">
                 <mat-label>Referral Phone</mat-label>
                 <input matInput formControlName="referr_phno" maxlength="15" 
-                       pattern="\d{3}-\d{3}-\d{4}" placeholder="123-456-7890">
-                <mat-error *ngIf="customerForm.get('referr_phno')?.hasError('pattern')">Format: XXX-XXX-XXXX</mat-error>
+                       pattern="\d{3}\d{3}\d{4}" placeholder="1234567890">
+                <mat-error *ngIf="customerForm.get('referr_phno')?.hasError('pattern')">Format: XXXXXXXXXX</mat-error>
                 <mat-error *ngIf="customerForm.get('referr_phno')?.hasError('maxlength')">Referral Phone cannot exceed 15 characters</mat-error>
-                <mat-hint>Format: XXX-XXX-XXXX</mat-hint>
+                <mat-hint>Format: XXXXXXXXXX</mat-hint>
               </mat-form-field>
   
               <mat-form-field appearance="fill">
@@ -173,7 +173,11 @@
           color="primary" 
           type="submit">
     Update
-  </button>        </div>
+  </button>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>  
+      </div>
       </form>
     </mat-card-content>
   </mat-card>

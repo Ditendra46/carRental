@@ -76,7 +76,7 @@ export class CarFormComponent implements OnInit {
     this.carForm = this.fb.group({
       vin: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       model: ['', [Validators.required, Validators.maxLength(50)]],
-      make: ['', [Validators.required, Validators.maxLength(4)]],
+      make: ['', [Validators.required, Validators.maxLength(50)]],
       odo: ['', [Validators.required, Validators.min(0)]],
       color: ['', [Validators.required, Validators.maxLength(30)]],
       int_color: ['', [Validators.maxLength(30)]],

@@ -16,6 +16,7 @@ export class CustomerFormComponent implements OnInit {
   formErrors: { [key: string]: string } = {};
   isEdit: boolean=false;
   customerId: number |null=null;
+  errorMessage: any;
 
   constructor(private fb: FormBuilder, private http: HttpClient, public dialog: MatDialog, public router: ActivatedRoute,public route: Router) {
     this.initForm();
@@ -48,11 +49,11 @@ export class CustomerFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       visa: ['', Validators.maxLength(20)],
       referr_name: ['', Validators.maxLength(50)],
-      referr_phno: ['', [Validators.maxLength(15), Validators.pattern(/^\d{3}-\d{3}-\d{4}$/)]],
+      referr_phno: ['', [Validators.maxLength(15)]],
       status: ['Prospect', Validators.required],
       category: ['', Validators.required],
       email_id: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
-      phone_no: ['', [Validators.required, Validators.maxLength(15), Validators.pattern(/^\d{3}-\d{3}-\d{4}$/)]],
+      phone_no: ['', [Validators.required, Validators.maxLength(15)]],
       add_1: ['', [Validators.required, Validators.maxLength(100)]],
       add_2: ['', Validators.maxLength(100)],
       city: ['', [Validators.required, Validators.maxLength(50)]],
@@ -92,7 +93,7 @@ export class CustomerFormComponent implements OnInit {
     }
     if (errors.pattern) {
       if (field === 'phone_no' || field === 'referr_phno') {
-        return 'Format: XXX-XXX-XXXX';
+        return 'Format: XXXXXXXXXX';
       }
       if (field === 'zipcd') {
         return '5-digit zip code required';
@@ -149,7 +150,8 @@ export class CustomerFormComponent implements OnInit {
           this.route.navigate(['/customers']);
         }
       },
-      error: (error) => console.error('Error:', error)
+      error:
+       (error) => this.errorMessage = error.error.message//console.error('Error:', error)
     });
   }
   }

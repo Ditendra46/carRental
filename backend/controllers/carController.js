@@ -14,10 +14,15 @@ const getAllCars = async (req, res) => {
       ready_date: car.ready_date ? new Date(car.ready_date).toISOString().split('T')[0] : null,
       sales_date: car.sales_date ? new Date(car.sales_date).toISOString().split('T')[0] : null
     }));
+    const sortedData = formattedData.sort((a, b) => {
+      if (a.status === 'In Market' && b.status !== 'In Market') return -1;
+      if (a.status !== 'In Market' && b.status === 'In Market') return 1;
+      return 0;
+    });
 
     res.status(200).json({
       success: true,
-      data: formattedData
+      data: sortedData
     });
   } catch (error) {
     res.status(400).json({
