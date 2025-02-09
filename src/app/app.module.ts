@@ -38,6 +38,9 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { RentFormComponent } from './rent-form/rent-form.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { RentalListComponent } from './rental-list/rental-list.component';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +62,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CarListComponent,
     CustomerListComponent,
     CustomerListComponent,
-    RentFormComponent
+    RentFormComponent,
+    RentalListComponent
     
     
   ],
@@ -83,7 +87,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSidenavModule,
     MatCardModule,
     MatCheckboxModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

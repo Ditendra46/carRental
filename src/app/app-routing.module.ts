@@ -14,6 +14,7 @@ import { CarFormComponent } from './car-form/car-form.component';
 import { CarListComponent } from './car-list/car-list.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { RentFormComponent } from './rent-form/rent-form.component';
+import { RentalListComponent } from './rental-list/rental-list.component';
 const routes: Routes = [
   {path:'',children:[
     {path:'',component:ProductsComponent},
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'customers', component: CustomerListComponent },
     { path: 'customer-form/:id', component: CustomerFormComponent },
     { path: 'rent/:carId', component: RentFormComponent },
+    { path: 'rental-list', component: RentalListComponent}
   ]}
 ];
 

@@ -1,9 +1,8 @@
 const { supabase } = require('../supabase');
-const {sendEmailForRental}= require('../utils/sendEmailForRental');
+const { sendEmailForRental } = require('../utils/sendEmailForRental');
 
 const addRental = async (req, res) => {
   try {
-    console.log(req.body[0])
     const { data, error } = await supabase
       .from('rental')
       .insert(req.body[1])
@@ -38,52 +37,52 @@ const addRental = async (req, res) => {
 
 const getAllRentals = async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('rentals')
-      .select(`
-        Rental_ID,
-        Rental_ID_Formatted,
-        Inventory_ID,
-        Customer_ID,
-        Ins_Company,
-        Ins_Policy_No,
-        Ins_Expiry_Dt,
-        Start_Date,
-        End_Date,
-        Days,
-        Duration,
-        Rate,
-        Discount,
-        Rent_Amount,
-        Pay_Method,
-        Adv_Amnt,
-        Ref_Amnt,
-        Ref_Name,
-        Ref_Ph,
-        Ext_YN,
-        created_date,
-        last_modified_date,
-        cars (model, make, vin),
-        customers (name, email_id, phone_no)
-      `)
-      .eq('rentals.Inventory_ID', 'cars.Car_ID_Formatted')
-      .eq('rentals.Customer_ID', ' Customer_ID_Formatted');
+    const { data: rentals, error: rentalError } = await supabase
+      .from('rental')
+      .select('*');
 
-    if (error) throw error;
+    if (rentalError) throw rentalError;
+
+    // Fetch related car and customer data for each rental
+    const rentalDataWithRelations = await Promise.all(
+      rentals.map(async (rental) => {
+        const { data: car, error: carError } = await supabase
+          .from('cars')
+          .select('model, make, vin')
+          .eq('car_id_formatted', rental.inventory_id)
+          .maybeSingle(); // Assuming Car_ID_Formatted is unique
+
+        if (carError) throw carError;
+
+        const { data: customer, error: customerError } = await supabase
+          .from('customers')
+          .select('name, email_id, phone_no')
+          .eq('customer_id_formatted', rental.customer_id)
+          .maybeSingle(); // Assuming Customer_ID_Formatted is unique
+
+        if (customerError) throw customerError;
+
+        return {
+          ...rental,
+          car: car || null, // Handle cases where car might not be found
+          customer: customer || null, // Handle cases where customer might not be found
+        };
+      })
+    );
 
     res.status(200).json({
       success: true,
-      data: data
+      data: rentalDataWithRelations,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
 
 module.exports = {
   addRental,
-  getAllRentals
+  getAllRentals,
 };

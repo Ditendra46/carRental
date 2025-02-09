@@ -129,7 +129,7 @@ export class RentFormComponent implements OnInit {
   onPhoneNumberInput(): void {
     const phoneNumber = this.userData.get('phNo')?.value;
     if (phoneNumber && phoneNumber.length >= 3) {
-
+      this.filteredPhoneNumbers=[];
     this.searchPhoneNumbers(phoneNumber)?.subscribe(usersdata => {
       console.log(usersdata)
       usersdata.forEach((data: any) => {
