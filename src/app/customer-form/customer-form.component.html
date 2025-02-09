@@ -25,6 +25,7 @@
                 <mat-error *ngIf="customerForm.get('email_id')?.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="customerForm.get('email_id')?.hasError('email')">Invalid email format</mat-error>
                 <mat-error *ngIf="customerForm.get('email_id')?.hasError('maxlength')">Email cannot exceed 100 characters</mat-error>
+                <mat-error *ngIf="customerForm.get('email_id')?.hasError('customError')">{{ customerForm.get('email_id')?.getError('customError') }}</mat-error>
                 <mat-hint align="end">{{customerForm.get('email_id')?.value?.length || 0}}/100</mat-hint>
               </mat-form-field>
   
@@ -35,6 +36,7 @@
                 <mat-error *ngIf="customerForm.get('phone_no')?.hasError('required')">Phone number is required</mat-error>
                 <mat-error *ngIf="customerForm.get('phone_no')?.hasError('pattern')">Format: XXXXXXXXXX</mat-error>
                 <mat-error *ngIf="customerForm.get('phone_no')?.hasError('maxlength')">Phone number cannot exceed 15 characters</mat-error>
+                <mat-error *ngIf="customerForm.get('phone_no')?.hasError('customError')">{{ customerForm.get('phone_no')?.getError('customError') }}</mat-error>
                  <mat-hint>Format: XXXXXXXXXX</mat-hint> 
               </mat-form-field>
             </mat-card-content>
@@ -174,9 +176,6 @@
           type="submit">
     Update
   </button>
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>  
       </div>
       </form>
     </mat-card-content>

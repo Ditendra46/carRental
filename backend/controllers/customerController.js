@@ -1,5 +1,6 @@
 const { supabase } = require('../supabase');
-const sendEmail = require('../utils/sendEmail');
+const {sendEmail} = require('../utils/sendEmail');
+
 const getAllCustomers = async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -19,7 +20,6 @@ const getAllCustomers = async (req, res) => {
     });
   }
 };
-
 
 const addCustomer = async (req, res) => {
   try {
@@ -106,6 +106,7 @@ const deleteCustomer = async (req, res) => {
     });
   }
 };
+
 const getCustomerById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -128,9 +129,43 @@ const getCustomerById = async (req, res) => {
     });
   }
 };
+
 const updateCustomer = async (req, res) => {
   try {
     const { id } = req.params;
+    const { email_id, phone_no } = req.body;
+
+    // Check for existing email
+    const { data: emailData, error: emailError } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('email_id', email_id)
+      .neq('customer_id', id); // Exclude the current customer
+
+    if (emailError) throw emailError;
+    if (emailData.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already exists'
+      });
+    }
+
+    // Check for existing phone number
+    const { data: phoneData, error: phoneError } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('phone_no', phone_no)
+      .neq('customer_id', id); // Exclude the current customer
+
+    if (phoneError) throw phoneError;
+    if (phoneData.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Phone number already exists'
+      });
+    }
+
+    // Update customer
     const { data, error } = await supabase
       .from('customers')
       .update(req.body)
@@ -142,7 +177,7 @@ const updateCustomer = async (req, res) => {
     res.status(200).json({
       success: true,
       data: data,
-      message: 'Car updated successfully'
+      message: 'Customer updated successfully'
     });
   } catch (error) {
     res.status(400).json({
@@ -151,6 +186,7 @@ const updateCustomer = async (req, res) => {
     });
   }
 };
+
 const getCustomerByPhno = async (req, res) => {
   try {
     const { phno } = req.params;
@@ -172,6 +208,7 @@ const getCustomerByPhno = async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
+
 module.exports = {
   getAllCustomers,
   addCustomer,

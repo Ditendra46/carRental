@@ -150,9 +150,16 @@ export class CustomerFormComponent implements OnInit {
           this.route.navigate(['/customers']);
         }
       },
-      error:
-       (error) => this.errorMessage = error.error.message//console.error('Error:', error)
-    });
+      error:(error) => {
+        const errorMessage = error.error.message;
+       if (errorMessage.includes('Email')) {
+         this.customerForm.get('email_id')?.setErrors({ customError: errorMessage });
+       } 
+        if (errorMessage.includes('Phone number')) {
+         this.customerForm.get('phone_no')?.setErrors({ customError: errorMessage });
+       } 
+         this.errorMessage = errorMessage;
+       }  });
   }
   }
   editCustomer(){
