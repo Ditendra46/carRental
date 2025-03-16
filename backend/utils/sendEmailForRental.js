@@ -4,7 +4,7 @@ const transporter = require('../config/nodemailer');
 
 const sendEmailForRental = (to, subject, templateName, replacements) => {
     const templatePath = "./templates/rentalConfirmationEmail.html";
-    let htmlContent = fs.readFileSync(templatePath, 'utf8');
+    let htmlContent = fs.readFile(templatePath, 'utf8');
   
     for (const key in replacements) {
       htmlContent = htmlContent.replace(new RegExp(`{{${key}}}`, 'g'), replacements[key]);

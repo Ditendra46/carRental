@@ -1,0 +1,9 @@
+[build]
+  base = "."  # Assuming your project is in the root directory
+  command = "npm run build -- --configuration production"  # Build command for production
+  publish = "dist/"  # Path to the built files
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
