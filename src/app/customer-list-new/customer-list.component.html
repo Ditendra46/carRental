@@ -1,0 +1,106 @@
+<div class="customer-list-container">
+  <div class="header">
+    <h2>Available Customers</h2>
+    <button mat-raised-button color="primary" routerLink="/customers/add">
+      <mat-icon>add</mat-icon>
+      Add New Customer
+    </button>
+  </div>
+  <div class="filter-bar">
+    <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Enter search term">
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by State</mat-label>
+      <mat-select [(ngModel)]="filterValues.state" (selectionChange)="applyStateFilter($event.value)">
+        <mat-option *ngFor="let state of stateOptions" [value]="state">{{state}}</mat-option>
+      </mat-select>
+      <button mat-icon-button matSuffix *ngIf="filterValues.state" (click)="clearStateFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by City</mat-label>
+      <mat-select [(ngModel)]="filterValues.city" (selectionChange)="applyCityFilter($event.value)">
+        <mat-option *ngFor="let city of cityOptions" [value]="city">{{city}}</mat-option>
+      </mat-select>
+      <button mat-icon-button matSuffix *ngIf="filterValues.city" (click)="clearCityFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(ngModel)]="filterValues.status" (selectionChange)="applyStatusFilter($event.value)">
+        <mat-option *ngFor="let status of statusOptions" [value]="status">{{status}}</mat-option>
+      </mat-select>
+      <button mat-icon-button matSuffix *ngIf="filterValues.status" (click)="clearStatusFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+      </mat-form-field>
+  </div>
+  <span class="total-count">Total Customers: {{customers.filteredData.length}}</span>
+  </div>
+  <div class="loading-error" *ngIf="loading || error">
+    <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+    <p class="error-message" *ngIf="error">{{error}}</p>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <table mat-table [dataSource]="customers" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.email_id}} </td>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.phone_no}} </td>
+      </ng-container>
+
+      <!-- City Column -->
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.city}} </td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef> State </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.state}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.status}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let customer">
+          <button class="action" mat-button color="primary" (click)="onEdit(customer,'view')">
+            <mat-icon>visibility</mat-icon> View
+          </button>
+          <button class="action" mat-button color="warn" class="action" (click)="onEdit(customer,'edit')">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

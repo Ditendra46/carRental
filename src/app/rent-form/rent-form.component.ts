@@ -40,7 +40,7 @@ export class RentFormComponent implements OnInit {
       
   }
   private loadCarData(id: number | null): void {
-    this.http.get(`http://localhost:3000/api/cars/${id}`).subscribe({
+    this.http.get(`https://carrental-0zt3.onrender.com/api/cars/${id}`).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.rentForm.patchValue( {
@@ -106,12 +106,12 @@ export class RentFormComponent implements OnInit {
   }
   onSubmit(): void {
     if (this.rentForm.valid) {
-      this.http.post('http://localhost:3000/api/rentals', [this.userData.value, this.rentalDetailsForm.value,this.carDetailsForm.value]).pipe(
+      this.http.post('https://carrental-0zt3.onrender.com/api/rentals', [this.userData.value, this.rentalDetailsForm.value,this.carDetailsForm.value]).pipe(
         concatMap((response: any) => {
           if (response.success) {
             const invId = response.data[0].inventory_id;
             console.log(invId);
-            return this.http.put(`http://localhost:3000/api/cars/updateStatus/${invId}`, {});
+            return this.http.put(`https://carrental-0zt3.onrender.com/api/cars/updateStatus/${invId}`, {});
           } else {
             throw new Error('Failed to create rental');
           }
@@ -146,13 +146,13 @@ export class RentFormComponent implements OnInit {
   //name
   //dl_no
   private searchPhoneNumbers(query: string): Observable<any> {
-    return this.http.get<{ success: boolean, data: string[] }>(`http://localhost:3000/api/customers/phone-number/${query}`)
+    return this.http.get<{ success: boolean, data: string[] }>(`https://carrental-0zt3.onrender.com/api/customers/phone-number/${query}`)
     .pipe(
       map(response => response.data)
     );  }
 
     onPhoneNumberSelected(phoneNumber: string): void {
-      this.http.get<{ success: boolean, data: any[] }>(`http://localhost:3000/api/customers/phone-number/${phoneNumber}`)
+      this.http.get<{ success: boolean, data: any[] }>(`https://carrental-0zt3.onrender.com/api/customers/phone-number/${phoneNumber}`)
         .subscribe(response => {
           if (response.success) {
             const customer = response.data[0];            console.log(response.data.map((element: any) => element.dl_no))

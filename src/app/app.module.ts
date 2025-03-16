@@ -32,17 +32,16 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CarFormComponent } from './car-form/car-form.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ValidationService } from './services/validation.service';
-import { CarListComponent } from './car-list/car-list.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CustomerListComponent } from './customer-list/customer-list.component';
+//import { CarListComponent } from './car-list/car-list.component';
+//import { CustomerListComponent } from './customer-list/customer-list.component';
 import { RentFormComponent } from './rent-form/rent-form.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RentalListComponent } from './rental-list/rental-list.component';
 import { MatTableModule } from '@angular/material/table';
-
-
-@NgModule({
+import { CarListComponent } from './car-list-new/car-list.component';
+import { CustomerListComponent } from './customer-list-new/customer-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';@NgModule({
   declarations: [
     AppComponent,
     BikesComponent,
@@ -88,7 +87,7 @@ import { MatTableModule } from '@angular/material/table';
     MatCardModule,
     MatCheckboxModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatTableModule,
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

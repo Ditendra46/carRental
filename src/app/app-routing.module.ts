@@ -11,10 +11,12 @@ import { EditCarComponent } from './edit-car/edit-car.component';
 import { BookingComponent } from './booking/booking.component';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CarFormComponent } from './car-form/car-form.component';
-import { CarListComponent } from './car-list/car-list.component';
-import { CustomerListComponent } from './customer-list/customer-list.component';
+//import { CarListComponent } from './car-list/car-list.component';
+//import { CustomerListComponent } from './customer-list/customer-list.component';
 import { RentFormComponent } from './rent-form/rent-form.component';
 import { RentalListComponent } from './rental-list/rental-list.component';
+import { CarListComponent } from './car-list-new/car-list.component';
+import { CustomerListComponent } from './customer-list-new/customer-list.component';
 const routes: Routes = [
   {path:'',children:[
     {path:'',component:ProductsComponent},

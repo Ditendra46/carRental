@@ -34,6 +34,7 @@ export class CarFormComponent implements OnInit {
   isEditMode = false;
   isEdit: boolean = false;
   carId: number | null = null;
+  additionalText: string | null='';
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -54,6 +55,16 @@ export class CarFormComponent implements OnInit {
         this.carForm.disable();
       }
     });
+    this.router.queryParamMap.subscribe(params => {
+      this.additionalText = params.get('text');
+    });
+    if(this.additionalText==='edit'){
+      this.carForm.enable();
+      this.isEdit=true;
+    }else{
+      this.carForm.disable();
+      this.isEdit=false;
+    }
   }
 
 
@@ -63,7 +74,7 @@ export class CarFormComponent implements OnInit {
 
 
   private loadCarData(id: number | null): void {
-    this.http.get(`http://localhost:3000/api/cars/${id}`).subscribe({
+    this.http.get(`https://carrental-0zt3.onrender.com/api/cars/${id}`).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.carForm.patchValue(response.data);
@@ -163,8 +174,8 @@ export class CarFormComponent implements OnInit {
   onSubmit(): void {
       if (this.carForm.valid) {
       const url = this.isEdit
-        ? `http://localhost:3000/api/cars/${this.carId}`
-        : 'http://localhost:3000/api/cars';
+        ? `https://carrental-0zt3.onrender.com/api/cars/${this.carId}`
+        : 'https://carrental-0zt3.onrender.com/api/cars';
 
       const method = this.isEdit ? 'put' : 'post';
       console.log('Form:', this.carForm.value);

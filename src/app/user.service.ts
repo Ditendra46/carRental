@@ -37,10 +37,10 @@ logOutUser(){
     this.userSource.next(null);
 }
 updateCar(licensePlate: string, carData: any): Observable<any> {
-  return this.http.put(`http://localhost:3000/api/cars/${licensePlate}`, carData);
+  return this.http.put(`https://carrental-0zt3.onrender.com/api/cars/${licensePlate}`, carData);
 }
 deleteCar(licensePlate: string): Observable<any> {
-  return this.http.delete(`http://localhost:3000/api/cars/${licensePlate}`);
+  return this.http.delete(`https://carrental-0zt3.onrender.com/api/cars/${licensePlate}`);
 }
 getCars():Observable<any[]>{
   return this.http.get<any[]>('http://localhost:3000/api/products')

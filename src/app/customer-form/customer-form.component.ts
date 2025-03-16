@@ -17,6 +17,7 @@ export class CustomerFormComponent implements OnInit {
   isEdit: boolean=false;
   customerId: number |null=null;
   errorMessage: any;
+  additionalText: string | null='';
 
   constructor(private fb: FormBuilder, private http: HttpClient, public dialog: MatDialog, public router: ActivatedRoute,public route: Router) {
     this.initForm();
@@ -32,10 +33,21 @@ export class CustomerFormComponent implements OnInit {
         this.customerForm.disable();
       }
     });
+    this.router.queryParamMap.subscribe(params => {
+      this.additionalText = params.get('text');
+    });
+    if(this.additionalText==='edit'){
+      this.customerForm.enable();
+      this.isEdit=true;
+    }else{
+      this.customerForm.disable();
+      this.isEdit=false;
+    }
     
   }
+
   private loadCustomerData(id: number | null): void {
-    this.http.get(`http://localhost:3000/api/customers/${id}`).subscribe({
+    this.http.get(`https://carrental-0zt3.onrender.com/api/customers/${id}`).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.customerForm.patchValue(response.data);
@@ -139,8 +151,8 @@ export class CustomerFormComponent implements OnInit {
   onSubmit(): void {
     if (this.customerForm.valid) {
     const url = this.isEdit
-      ? `http://localhost:3000/api/customers/${this.customerId}`
-      : 'http://localhost:3000/api/customers';
+      ? `https://carrental-0zt3.onrender.com/api/customers/${this.customerId}`
+      : 'https://carrental-0zt3.onrender.com/api/customers';
 
     const method = this.isEdit ? 'put' : 'post';
 

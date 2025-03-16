@@ -30,7 +30,7 @@ export class CarListComponent implements OnInit {
 
   private loadCars(): void {
     this.loading = true;
-    this.http.get<any>('http://localhost:3000/api/cars').subscribe({
+    this.http.get<any>('https://carrental-0zt3.onrender.com/api/cars').subscribe({
       next: (response) => {
         this.cars = response.data;
         this.loading = false;
@@ -60,7 +60,7 @@ export class CarListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete(`http://localhost:3000/api/cars/${car.car_id}`).subscribe({
+        this.http.delete(`https://carrental-0zt3.onrender.com/api/cars/${car.car_id}`).subscribe({
           next: () => {
             this.loadCars(); // Refresh the list
           },

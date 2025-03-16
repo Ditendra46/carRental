@@ -49,7 +49,7 @@ export class CarDetailsComponent implements OnInit {
         const registrationDate = new Date(formData.registrationDate);
         formData.registrationDate = registrationDate.toISOString().split('T')[0]; //
       console.log('Form Submitted', this.carForm.value);
-      this.http.post('http://localhost:3000/api/cars', formData)
+      this.http.post('https://carrental-0zt3.onrender.com/api/cars', formData)
         .subscribe(response => {
           console.log('Car details added:', response);
         }, error => {
