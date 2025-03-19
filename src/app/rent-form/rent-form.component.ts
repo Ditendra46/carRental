@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { concatMap, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-rent-form',
@@ -32,6 +33,7 @@ export class RentFormComponent implements OnInit {
         console.log('Car data received:', car); // Log car data for debugging
         this.carId = car.toString();
         console.log('Car ID:', this.carId);
+        this.rentForm.enable();
         this.loadCarData(car); // Log car ID for debugging
       } else {
         console.error('No car data received');
@@ -40,9 +42,13 @@ export class RentFormComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.additionalText = params.get('text');
     });
+    
     if (this.additionalText === 'edit') {
       this.rentForm.enable();
-    } else {
+    } else if (this.additionalText === 'rent') {
+      this.rentForm.enable();
+    }
+    else {
       this.rentForm.disable();
     }
   }

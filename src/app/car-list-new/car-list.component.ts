@@ -191,9 +191,9 @@ export class CarListComponent implements OnInit,AfterViewInit {
   }
 
   onRent(car: Cardetails): void {
-    this.router.navigate(['/rent', car.car_id], {
-      state: { car: car }
-    });
+    this.router.navigate(['/rent', car.car_id], 
+      { queryParams: { text: 'rent' } }
+    );
   }
   clearVinFilter(): void {
     this.filterValues.vin = '';
