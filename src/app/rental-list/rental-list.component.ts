@@ -35,8 +35,7 @@ export class RentalListComponent implements OnInit {
   carVinOptions: string[] = [];
   insCompanyOptions: string[] = [];
 
-  constructor(private http: HttpClient,    public router: Router
-  ) {}
+  constructor(private http: HttpClient, public router: Router) {}
 
   ngOnInit(): void {
     this.fetchRentals();
@@ -59,7 +58,8 @@ export class RentalListComponent implements OnInit {
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.rentals.filter = filterValue.trim().toLowerCase();
+    this.filterValues.search = filterValue.trim().toLowerCase();
+    this.rentals.filter = JSON.stringify(this.filterValues);
   }
 
   applyCustomerNameFilter(customerName: string): void {
@@ -103,20 +103,25 @@ export class RentalListComponent implements OnInit {
       }
       return (
         (data.customer?.name?.toLowerCase().includes(searchTerms.search) || '') &&
-       // (data.car?.vin?.toLowerCase().includes(searchTerms.search) || '') &&
+        (data.car?.vin?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.customer?.email_id?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.customer?.phone_no?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.ins_company?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.ins_policy_no?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.rental_id_formatted?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.inventory_id?.toLowerCase().includes(searchTerms.search) || '') &&
+        (data.rate?.toString().includes(searchTerms.search) || '') &&
+        (data.rent_amount?.toString().includes(searchTerms.search) || '') &&
+        (data.pay_method?.toLowerCase().includes(searchTerms.search) || '') &&
+        (data.adv_amnt?.toString().includes(searchTerms.search) || '') &&
         (searchTerms.customer_name ? data.customer?.name === searchTerms.customer_name : true) &&
         (searchTerms.car_vin ? data.car?.vin === searchTerms.car_vin : true) &&
         (searchTerms.ins_company ? data.ins_company === searchTerms.ins_company : true)
       );
     };
   }
-   onEdit(rental: Rental, additionalText: string): void {
-      this.router.navigate(['/rent', rental.rental_id], { queryParams: { text: additionalText } });
-    }
+
+  onEdit(rental: Rental, additionalText: string): void {
+    this.router.navigate(['/rent', rental.rental_id], { queryParams: { text: additionalText } });
+  }
 }

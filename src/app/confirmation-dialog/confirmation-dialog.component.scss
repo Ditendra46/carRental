@@ -25,3 +25,28 @@
       }
     }
   }
+  /* filepath: c:\Users\diten\Desktop\Gen AI\Angular\car_rental_backup\carRental\src\app\confirmation-dialog\confirmation-dialog.component.scss */
+.confirmation-dialog {
+  .dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d32f2f; /* Red color for warning */
+    margin-bottom: 10px;
+  }
+
+  .dialog-content {
+    font-size: 16px;
+    color: #555; /* Neutral text color */
+    margin: 10px 0;
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+      min-width: 100px;
+    }
+  }
+}

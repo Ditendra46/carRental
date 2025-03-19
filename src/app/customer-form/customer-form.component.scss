@@ -32,8 +32,28 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
-
+gap:10px;
     button {
         min-width: 120px;
     }
 }
+.back-button{
+    color: white;
+    background-color: #3949ab;
+    width: 60px;
+    height: 4vh;
+    margin: 10px;
+}
+.form-row {
+    display: flex;
+    gap: 16px; /* Space between fields */
+  }
+  
+  .form-field {
+    flex: 1; /* Make fields take equal space */
+  }
+  textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 50px;
+    max-height: 150px;
+  }

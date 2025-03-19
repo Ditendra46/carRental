@@ -18,6 +18,7 @@ export class CustomerFormComponent implements OnInit {
   customerId: number |null=null;
   errorMessage: any;
   additionalText: string | null='';
+  pageType: string='';
 
   constructor(private fb: FormBuilder, private http: HttpClient, public dialog: MatDialog, public router: ActivatedRoute,public route: Router) {
     this.initForm();
@@ -26,6 +27,7 @@ export class CustomerFormComponent implements OnInit {
   ngOnInit() {
     this.subscribeToFormChanges();
     this.router.params.subscribe(params => {
+      console.log(params);
       if (params['id']) {
         this.isEdit = true;
         this.customerId = +params['id'];
@@ -39,10 +41,17 @@ export class CustomerFormComponent implements OnInit {
     if(this.additionalText==='edit'){
       this.customerForm.enable();
       this.isEdit=true;
+      this.pageType='edit';
+
+    }else if(this.additionalText==='Add'){
+      this.customerForm.enable();
+      this.isEdit=false;
+      this.pageType='Add';
     }else{
       this.customerForm.disable();
-      this.isEdit=false;
+      this.pageType='View';
     }
+
     
   }
 
@@ -59,7 +68,7 @@ export class CustomerFormComponent implements OnInit {
   private initForm(): void {
     this.customerForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
-      visa: ['', Validators.maxLength(20)],
+      visa: ['', [Validators.required,Validators.maxLength(20)]],
       referr_name: ['', Validators.maxLength(50)],
       referr_phno: ['', [Validators.maxLength(15)]],
       status: ['Prospect', Validators.required],
@@ -71,8 +80,11 @@ export class CustomerFormComponent implements OnInit {
       city: ['', [Validators.required, Validators.maxLength(50)]],
       state: ['', [Validators.required, Validators.maxLength(50)]],
       zipcd: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
-      country: ['', Validators.maxLength(50)],
-      dl_no: ['', [Validators.required, Validators.maxLength(50)]]
+      country: ['',[Validators.required, Validators.maxLength(50)]],
+      dl_no: ['', [Validators.required, Validators.maxLength(50)]],
+      license_expiry_date: ['',[Validators.required, Validators.required]],
+      issue_date: ['', [Validators.required,Validators.required]],
+      comments: ['', Validators.maxLength(500)]
     });
   }
 
@@ -177,5 +189,32 @@ export class CustomerFormComponent implements OnInit {
   editCustomer(){
     this.customerForm.enable()
   }
-  onReset(){}
+  onReset(){
+    this.customerForm.reset();
+  }
+  backToCustomers(){
+    this.route.navigate(['/customers']);
+  }
+
+  onBackButton(): void {
+    if (this.customerForm.dirty) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Confirm Navigation',
+          message: 'Are you sure you want to leave the page? Changes will be lost if you do not save.'
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('Dialog result:', result); // Debug log
+        if (result === 'confirm') {
+          this.route.navigate(['/customers']); // Navigate back to the customer list
+        }
+      });
+    } else {
+      this.route.navigate(['/customers']); // Navigate back without confirmation
+    }
+  }
+
 }

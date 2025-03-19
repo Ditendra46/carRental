@@ -41,7 +41,11 @@ import { RentalListComponent } from './rental-list/rental-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { CarListComponent } from './car-list-new/car-list.component';
 import { CustomerListComponent } from './customer-list-new/customer-list.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';@NgModule({
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RentalCarDashboardComponent } from './rental-car-dashboard/rental-car-dashboard.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDividerModule } from '@angular/material/divider';
+@NgModule({
   declarations: [
     AppComponent,
     BikesComponent,
@@ -60,7 +64,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';@N
     CarListComponent,
     CustomerListComponent,
     RentFormComponent,
-    RentalListComponent
+    RentalListComponent,
+    RentalCarDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -86,6 +91,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';@N
     MatCheckboxModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatDividerModule
+
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

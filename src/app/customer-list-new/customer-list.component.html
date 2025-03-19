@@ -1,45 +1,54 @@
 <div class="customer-list-container">
   <div class="header">
     <h2>Available Customers</h2>
-    <button mat-raised-button color="primary" routerLink="/customers/add">
+    <button mat-raised-button color="primary" (click)='addNewCustomer()'>
       <mat-icon>add</mat-icon>
       Add New Customer
     </button>
   </div>
   <div class="filter-bar">
     <div class="filters">
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Enter search term">
     </mat-form-field>
-    
+     -->
+    <!-- Filter by Name -->
     <mat-form-field appearance="outline">
-      <mat-label>Filter by State</mat-label>
-      <mat-select [(ngModel)]="filterValues.state" (selectionChange)="applyStateFilter($event.value)">
-        <mat-option *ngFor="let state of stateOptions" [value]="state">{{state}}</mat-option>
-      </mat-select>
-      <button mat-icon-button matSuffix *ngIf="filterValues.state" (click)="clearStateFilter()">
+      <mat-label>Filter by Name</mat-label>
+      <input matInput (keyup)="applyNameFilter($event)" placeholder="Enter name" [value]="filterValues.name">
+      <button mat-icon-button matSuffix *ngIf="filterValues.name" (click)="clearNameFilter()">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-form-field>
+
+    <!-- Filter by Email -->
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Email</mat-label>
+      <input matInput (keyup)="applyEmailFilter($event)" placeholder="Enter email" [value]="filterValues.email">
+      <button mat-icon-button matSuffix *ngIf="filterValues.email" (click)="clearEmailFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Filter by Phone -->
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Phone</mat-label>
+      <input matInput (keyup)="applyPhoneFilter($event)" placeholder="Enter phone number" [value]="filterValues.phone">
+      <button mat-icon-button matSuffix *ngIf="filterValues.phone" (click)="clearPhoneFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Filter by City -->
     <mat-form-field appearance="outline">
       <mat-label>Filter by City</mat-label>
-      <mat-select [(ngModel)]="filterValues.city" (selectionChange)="applyCityFilter($event.value)">
-        <mat-option *ngFor="let city of cityOptions" [value]="city">{{city}}</mat-option>
-      </mat-select>
+      <input matInput (keyup)="applyCityFilter($event)" placeholder="Enter city" [value]="filterValues.city">
       <button mat-icon-button matSuffix *ngIf="filterValues.city" (click)="clearCityFilter()">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by Status</mat-label>
-      <mat-select [(ngModel)]="filterValues.status" (selectionChange)="applyStatusFilter($event.value)">
-        <mat-option *ngFor="let status of statusOptions" [value]="status">{{status}}</mat-option>
-      </mat-select>
-      <button mat-icon-button matSuffix *ngIf="filterValues.status" (click)="clearStatusFilter()">
-        <mat-icon>clear</mat-icon>
-      </button>
-      </mat-form-field>
+      
   </div>
   <span class="total-count">Total Customers: {{customers.filteredData.length}}</span>
   </div>
@@ -48,7 +57,6 @@
     <p class="error-message" *ngIf="error">{{error}}</p>
   </div>
 
-  <div *ngIf="!loading && !error">
     <table mat-table [dataSource]="customers" class="mat-elevation-z8">
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -85,6 +93,21 @@
         <th mat-header-cell *matHeaderCellDef> Status </th>
         <td mat-cell *matCellDef="let customer"> {{customer.status}} </td>
       </ng-container>
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="craetedDate">
+        <th mat-header-cell *matHeaderCellDef> Created Date(Start Date) </th>
+        <td mat-cell *matCellDef="let customer"> {{customer.created_date | date:'dd-MM-yyyy'}} </td>
+      </ng-container>
+<!--Driving License Expiry Date Column-->
+<ng-container matColumnDef="licenseExpiry">
+  <th mat-header-cell *matHeaderCellDef> License Expiry </th>
+  <td mat-cell *matCellDef="let customer"> {{customer.dl_exp_date | date:'dd-MM-yyyy'}} </td>
+</ng-container>
+<!-- Driving License Issue State Column -->
+<ng-container matColumnDef="dlIssueState">
+  <th mat-header-cell *matHeaderCellDef> DL Issue State </th>
+  <td mat-cell *matCellDef="let customer"> {{customer.dl_issue_state}} </td>
+</ng-container>
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
@@ -102,5 +125,5 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

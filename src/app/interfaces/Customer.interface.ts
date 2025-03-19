@@ -6,4 +6,6 @@ export interface Customer {
     city: string;
     state: string;
     status: string;
+    //license_expiry_date: string;
+    issue_date: string;
   }

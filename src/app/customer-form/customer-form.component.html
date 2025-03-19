@@ -1,3 +1,8 @@
+<div>
+  <button mat-button class="back-button" (click)="onBackButton()">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+  </button>
+</div>
 <mat-card>
     <mat-card-header>
       <mat-card-title class="center-title">Customer Registration</mat-card-title>
@@ -108,7 +113,26 @@
                 <mat-error *ngIf="customerForm.get('dl_no')?.hasError('maxlength')">Driver's License cannot exceed 50 characters</mat-error>
                 <mat-hint align="end">{{customerForm.get('dl_no')?.value?.length || 0}}/50</mat-hint>
               </mat-form-field>
-  
+              <div class="form-row">
+                <!-- Driving License Expiry Date -->
+                <mat-form-field appearance="fill" class="form-field">
+                  <mat-label>DL Expiry Date</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="license_expiry_date" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="customerForm.get('license_expiry_date')?.hasError('required')">
+                    Driving License Expiry Date is required
+                  </mat-error>
+                </mat-form-field>
+              
+                <!-- Issue License State -->
+                <mat-form-field appearance="fill" class="form-field">
+                  <mat-label>Issue License State</mat-label>
+                  <input matInput formControlName="issue_state" required maxlength="50">
+                  <mat-error *ngIf="customerForm.get('issue_state')?.hasError('required')">Issue State is required</mat-error>
+                  <mat-error *ngIf="customerForm.get('issue_state')?.hasError('maxlength')">State cannot exceed 50 characters</mat-error>
+                </mat-form-field>
+              </div>
               <mat-form-field appearance="fill">
                 <mat-label>Visa</mat-label>
                 <input matInput formControlName="visa" maxlength="20">
@@ -147,33 +171,38 @@
                 <input matInput formControlName="category" required>
                 <mat-error *ngIf="customerForm.get('category')?.hasError('required')">Category is required</mat-error>
               </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Comments</mat-label>
+                <textarea matInput formControlName="comments" maxlength="250" placeholder="Enter any additional comments"></textarea>
+                <mat-hint align="end">{{ customerForm.get('comments')?.value?.length || 0 }}/250</mat-hint>
+              </mat-form-field>
             </mat-card-content>
           </mat-card>
         </div>
   
         <!-- Submit Button -->
         <div class="form-actions">
-          <button *ngIf="!isEdit" mat-raised-button 
+          <button *ngIf="pageType==='Add'" mat-raised-button 
           color="warn" 
           type="button" 
-          (click)="onReset()">
+          (click)="onReset()" [disabled]="customerForm.pristine">
     Reset
   </button>
-  <button *ngIf="isEdit" mat-raised-button 
+  <!-- <button *ngIf="pageType==='edit'" mat-raised-button 
           color="warn" 
           type="button" 
           (click)="editCustomer()">
     Edit
-  </button>
-  <button *ngIf="!isEdit" mat-raised-button 
+  </button> -->
+  <button *ngIf="pageType==='Add'" mat-raised-button 
           color="primary" 
           type="submit" 
           [disabled]="!customerForm.valid">
     Submit
   </button>
-  <button *ngIf="isEdit" mat-raised-button 
+  <button *ngIf="pageType==='edit'" mat-raised-button 
           color="primary" 
-          type="submit">
+          type="submit" [disabled]="!customerForm.valid || customerForm.pristine">
     Update
   </button>
       </div>

@@ -17,6 +17,7 @@ import { RentFormComponent } from './rent-form/rent-form.component';
 import { RentalListComponent } from './rental-list/rental-list.component';
 import { CarListComponent } from './car-list-new/car-list.component';
 import { CustomerListComponent } from './customer-list-new/customer-list.component';
+import { RentalCarDashboardComponent } from './rental-car-dashboard/rental-car-dashboard.component';
 const routes: Routes = [
   {path:'',children:[
     {path:'',component:ProductsComponent},
@@ -30,13 +31,15 @@ const routes: Routes = [
     { path: 'customer-form', component: CustomerFormComponent },
     { path: 'car-form', component: CarFormComponent},
     {path:'car-list',component:CarListComponent},
-    { path: 'customers/add', component: CustomerFormComponent },
+    { path: 'addcustomers', component: CustomerFormComponent },
     { path: 'cars/add', component: CarFormComponent },
     { path: 'car-form/:id', component: CarFormComponent },
     { path: 'customers', component: CustomerListComponent },
     { path: 'customer-form/:id', component: CustomerFormComponent },
     { path: 'rent/:carId', component: RentFormComponent },
-    { path: 'rental-list', component: RentalListComponent}
+    { path: 'rental-list', component: RentalListComponent},
+    { path: 'rental-dashboard', component: RentalCarDashboardComponent}
+
   ]}
 ];
 
