@@ -5,7 +5,7 @@ const getAllCustomers = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('customers')
-      .select('*').order('customer_id', { ascending: false });
+      .select('*').order('customer_id', { ascending: true });
 
     if (error) throw error;
 
