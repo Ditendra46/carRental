@@ -54,7 +54,6 @@
     <p class="error-message" *ngIf="error">{{error}}</p>
   </div>
 
-  <div *ngIf="!loading && !error">
     <table mat-table [dataSource]="cars" class="mat-elevation-z8">
       <!-- Action Column -->
       <ng-container matColumnDef="actions">
@@ -111,5 +110,5 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

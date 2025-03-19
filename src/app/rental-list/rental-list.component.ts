@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { Rental } from '../interfaces/Rental.interface';
 import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-rental-list',
   templateUrl: './rental-list.component.html',
   styleUrls: ['./rental-list.component.scss']
 })
-export class RentalListComponent implements OnInit {
+export class RentalListComponent implements OnInit ,AfterViewInit{
   rentals = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'Rental_ID_Formatted',
@@ -34,6 +35,7 @@ export class RentalListComponent implements OnInit {
   customerOptions: string[] = [];
   carVinOptions: string[] = [];
   insCompanyOptions: string[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private http: HttpClient, public router: Router) {}
 
@@ -56,11 +58,33 @@ export class RentalListComponent implements OnInit {
       );
     };
   }
+
+  ngAfterViewInit(): void {
+    console.log('Paginator:', this.paginator);
+    console.log('Customers:', this.rentals);
+  
+    if (this.paginator) {
+      this.rentals.paginator = this.paginator;
+      console.log('Paginator connected successfully');
+    } else {
+      console.error('Paginator is not ready in ngAfterViewInit');
+    }
+  
+    //this.cdr.detectChanges();
+  }
   fetchRentals(): void {
     this.http.get('https://carrental-0zt3.onrender.com/api/rentals').subscribe({
       next: (response: any) => {
         if (response.success) {
           this.rentals.data = response.data;
+            // Assign paginator after data is loaded
+        if (this.paginator) {
+          this.rentals.paginator = this.paginator;
+          console.log('Paginator assigned:', this.paginator);
+        } else {
+          console.error('Paginator is not available');
+        }
+  
           this.customerOptions = [...new Set(response.data.map((rental: any) => rental.customer?.name as string))] as string[];
           this.carVinOptions = [...new Set(response.data.map((rental: any) => rental.car?.vin as string))] as string[];
           this.insCompanyOptions = [...new Set(response.data.map((rental: any) => rental.ins_company as string))] as string[];

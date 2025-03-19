@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Cardetails } from '../interfaces/Cardetails.interface';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-car-list',
   templateUrl: './car-list.component.html',
   styleUrls: ['./car-list.component.scss']
 })
-export class CarListComponent implements OnInit {
+export class CarListComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = ['actions', 'make', 'model', 'vin', 'color', 'status', 'procure_date'];
   cars = new MatTableDataSource<Cardetails>([]);
   loading = true;
@@ -26,6 +27,7 @@ export class CarListComponent implements OnInit {
     model: '',
     vin:''
   };
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private http: HttpClient,
@@ -46,6 +48,19 @@ export class CarListComponent implements OnInit {
       
     };//this.createFilter(); 
     
+  }
+  ngAfterViewInit(): void {
+    console.log('Paginator:', this.paginator);
+    console.log('Customers:', this.cars);
+  
+    if (this.paginator) {
+      this.cars.paginator = this.paginator;
+      console.log('Paginator connected successfully');
+    } else {
+      console.error('Paginator is not ready in ngAfterViewInit');
+    }
+  
+    //this.cdr.detectChanges();
   }
   createFilter(): (data: Cardetails, filter: string) => boolean {
     return (data: Cardetails, filter: string): boolean => {
@@ -91,6 +106,13 @@ export class CarListComponent implements OnInit {
         this.makeOptions = Array.from(makeSet);
         this.modelOptions = Array.from(modelSet);
         this.loading = false;
+             // Assign paginator after data is loaded
+             if (this.paginator) {
+              this.cars.paginator = this.paginator;
+              console.log('Paginator assigned:', this.paginator);
+            } else {
+              console.error('Paginator is not available');
+            }
       },
       error: (error) => {
         this.error = 'Failed to load cars';
