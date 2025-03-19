@@ -2,3 +2,14 @@
     display: flex;
     gap: 10px;
 }
+:host ::ng-deep .mat-mdc-paginator-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px 16px !important;
+    flex-wrap: wrap-reverse !important;
+    width: 100% !important;
+    min-height: var(--mat-paginator-container-size) !important;
+    background-color: #dadce1 !important; /* Light background color */
+    border-top: 10px solid #938888 !important; /* Optional border for separation */
+  }
