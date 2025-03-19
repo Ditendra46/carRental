@@ -32,7 +32,7 @@ const routes: Routes = [
     { path: 'car-form', component: CarFormComponent},
     {path:'car-list',component:CarListComponent},
     { path: 'addcustomers', component: CustomerFormComponent },
-    { path: 'cars/add', component: CarFormComponent },
+    { path: 'addCar', component: CarFormComponent },
     { path: 'car-form/:id', component: CarFormComponent },
     { path: 'customers', component: CustomerListComponent },
     { path: 'customer-form/:id', component: CustomerFormComponent },

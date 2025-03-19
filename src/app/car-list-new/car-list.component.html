@@ -1,17 +1,22 @@
 <div class="car-list-container">
   <div class="header">
     <h2>Available Cars</h2>
-    <button mat-raised-button color="primary" routerLink="/cars/add">
+    <button mat-raised-button color="primary" (click)='addNewCar()'>
       <mat-icon>add</mat-icon>
       Add New Car
     </button>
   </div>
+  
   <div class="filter-bar">
     <div class="search-bar">
       <mat-form-field appearance="outline">
         <mat-label>Search by VIN</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Enter VIN number">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Enter name" [value]="filterValues.vin">
+        <button mat-icon-button matSuffix *ngIf="filterValues.vin" (click)="clearVinFilter()">
+          <mat-icon>clear</mat-icon>
+        </button>
       </mat-form-field>
+      
       <mat-form-field appearance="outline">
         <mat-label>Filter by Status</mat-label>
         <mat-select [(ngModel)]="filterValues.status" (selectionChange)="applyStatusFilter($event)">

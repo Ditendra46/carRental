@@ -48,7 +48,7 @@ const getAllRentals = async (req, res) => {
       rentals.map(async (rental) => {
         const { data: car, error: carError } = await supabase
           .from('cars')
-          .select('model, make, vin')
+          .select('car_id','model, make, vin')
           .eq('car_id_formatted', rental.inventory_id)
           .maybeSingle(); // Assuming Car_ID_Formatted is unique
 

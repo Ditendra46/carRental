@@ -10,20 +10,20 @@
           <mat-card-content>
             <mat-form-field appearance="outline">
               <mat-label>VIN</mat-label>
-              <input matInput formControlName="vin" required readonly class="readonly-input">
+              <input matInput formControlName="vin" required [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('vin')}}</mat-error>
             </mat-form-field>
   
             <mat-form-field appearance="outline">
               <mat-label>Model</mat-label>
-              <input matInput formControlName="model" required maxlength="50" readonly class="readonly-input">
+              <input matInput formControlName="model" required maxlength="50" [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('model')}}</mat-error>
               <mat-hint align="end">{{carForm.get('model')?.value?.length || 0}}/50</mat-hint>
             </mat-form-field>
   
             <mat-form-field appearance="outline">
               <mat-label>Make</mat-label>
-              <input matInput formControlName="make" required maxlength="50" readonly class="readonly-input">
+              <input matInput formControlName="make" required maxlength="50" [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('make')}}</mat-error>
               <mat-hint align="end">{{carForm.get('make')?.value?.length || 0}}/50</mat-hint>
             </mat-form-field>
@@ -44,21 +44,21 @@
           <mat-card-content>
             <mat-form-field appearance="outline">
               <mat-label>Color</mat-label>
-              <input matInput formControlName="color" required maxlength="30" readonly class="readonly-input">
+              <input matInput formControlName="color" required maxlength="30" [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('color')}}</mat-error>
               <mat-hint align="end">{{carForm.get('color')?.value?.length || 0}}/30</mat-hint>
             </mat-form-field>
   
             <mat-form-field appearance="outline">
               <mat-label>Interior Color</mat-label>
-              <input matInput formControlName="int_color" maxlength="30" readonly class="readonly-input">
+              <input matInput formControlName="int_color" maxlength="30" [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('int_color')}}</mat-error>
               <mat-hint align="end">{{carForm.get('int_color')?.value?.length || 0}}/30</mat-hint>
             </mat-form-field>
   
             <mat-form-field appearance="outline">
               <mat-label>Exterior Color</mat-label>
-              <input matInput formControlName="ext_color" maxlength="30" readonly class="readonly-input">
+              <input matInput formControlName="ext_color" maxlength="30" [readonly]="isEdit" class="readonly-input">
               <mat-error>{{getErrorMessage('ext_color')}}</mat-error>
               <mat-hint align="end">{{carForm.get('ext_color')?.value?.length || 0}}/30</mat-hint>
             </mat-form-field>
@@ -189,7 +189,7 @@
         <button *ngIf="!isEdit" mat-raised-button 
                 color="warn" 
                 type="button" 
-                (click)="onReset()">
+                (click)="onReset()" [disabled]="carForm.pristine">
           Reset
         </button>
       

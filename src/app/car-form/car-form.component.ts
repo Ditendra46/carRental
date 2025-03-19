@@ -35,6 +35,7 @@ export class CarFormComponent implements OnInit {
   isEdit: boolean = false;
   carId: number | null = null;
   additionalText: string | null='';
+  pageType: string='';
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -61,9 +62,15 @@ export class CarFormComponent implements OnInit {
     if(this.additionalText==='edit'){
       this.carForm.enable();
       this.isEdit=true;
+      this.pageType='edit';
+
+    }else if(this.additionalText==='Add'){
+      this.carForm.enable();
+      this.isEdit=false;
+      this.pageType='Add';
     }else{
       this.carForm.disable();
-      this.isEdit=false;
+      this.pageType='View';
     }
   }
 

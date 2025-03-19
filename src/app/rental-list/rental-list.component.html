@@ -6,9 +6,16 @@
     <div class="filter-bar">
       <div class="filters">
         <mat-form-field appearance="outline">
+          <mat-label>Search by VIN</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Enter Vin Number" [value]="filterValues.car_vin">
+          <button mat-icon-button matSuffix *ngIf="filterValues.car_vin" (click)="clearVinFilter()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- <mat-form-field appearance="outline">
           <mat-label>Search</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Enter search term">
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field appearance="outline">
           <mat-label>Filter by Customer Name</mat-label>
           <mat-select [(ngModel)]="filterValues.customer_name" (selectionChange)="applyCustomerNameFilter($event.value)">
@@ -18,7 +25,7 @@
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <mat-label>Filter by Car VIN</mat-label>
           <mat-select [(ngModel)]="filterValues.car_vin" (selectionChange)="applyCarVinFilter($event.value)">
             <mat-option *ngFor="let vin of carVinOptions" [value]="vin">{{vin}}</mat-option>
@@ -26,7 +33,7 @@
           <button mat-icon-button matSuffix *ngIf="filterValues.car_vin" (click)="clearCarVinFilter()">
             <mat-icon>clear</mat-icon>
           </button>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field appearance="outline">
           <mat-label>Filter by Insurance Company</mat-label>
           <mat-select [(ngModel)]="filterValues.ins_company" (selectionChange)="applyInsCompanyFilter($event.value)">

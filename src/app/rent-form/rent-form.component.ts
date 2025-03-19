@@ -14,7 +14,7 @@ export class RentFormComponent implements OnInit {
   rentForm!: FormGroup;
   carId: string | null = null;
   filteredPhoneNumbers: String[] = [];
-  additionalText: string = '';
+  additionalText: string | null='';
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +36,9 @@ export class RentFormComponent implements OnInit {
       } else {
         console.error('No car data received');
       }
+    });
+    this.route.queryParamMap.subscribe(params => {
+      this.additionalText = params.get('text');
     });
     if (this.additionalText === 'edit') {
       this.rentForm.enable();

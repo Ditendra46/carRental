@@ -39,9 +39,23 @@ export class RentalListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchRentals();
-    this.rentals.filterPredicate = this.createFilter();
+    this.rentals.filterPredicate = (data: any, filter: string): boolean => {
+      let searchTerms;
+      try {
+        searchTerms = JSON.parse(filter); // Parse the filter string as JSON
+      } catch (e) {
+        console.error('Error parsing filter JSON:', e);
+        return false;
+      }
+  
+      return (
+        (!searchTerms.car_vin || data.car?.vin?.toString().toLowerCase().includes(searchTerms.car_vin)) &&
+        (!searchTerms.customer_name || data.customer?.name?.toLowerCase().includes(searchTerms.customer_name.toLowerCase())) &&
+        //(!searchTerms.car_vin || data.car?.vin?.toString().toLowerCase() === searchTerms.car_vin.toLowerCase()) &&
+        (!searchTerms.ins_company || data.ins_company?.toLowerCase() === searchTerms.ins_company.toLowerCase())
+      );
+    };
   }
-
   fetchRentals(): void {
     this.http.get('https://carrental-0zt3.onrender.com/api/rentals').subscribe({
       next: (response: any) => {
@@ -57,21 +71,21 @@ export class RentalListComponent implements OnInit {
   }
 
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterValues.search = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filterValues.car_vin = filterValue;
     this.rentals.filter = JSON.stringify(this.filterValues);
   }
-
+  
   applyCustomerNameFilter(customerName: string): void {
     this.filterValues.customer_name = customerName;
     this.rentals.filter = JSON.stringify(this.filterValues);
   }
-
+  
   applyCarVinFilter(carVin: string): void {
     this.filterValues.car_vin = carVin;
     this.rentals.filter = JSON.stringify(this.filterValues);
   }
-
+  
   applyInsCompanyFilter(insCompany: string): void {
     this.filterValues.ins_company = insCompany;
     this.rentals.filter = JSON.stringify(this.filterValues);
@@ -91,7 +105,10 @@ export class RentalListComponent implements OnInit {
     this.filterValues.ins_company = '';
     this.rentals.filter = JSON.stringify(this.filterValues);
   }
-
+  clearVinFilter(): void {
+    this.filterValues.car_vin = ''; 
+    this.rentals.filter = JSON.stringify(this.filterValues);
+  }
   createFilter(): (data: any, filter: string) => boolean {
     return (data: any, filter: string): boolean => {
       let searchTerms;
@@ -103,7 +120,7 @@ export class RentalListComponent implements OnInit {
       }
       return (
         (data.customer?.name?.toLowerCase().includes(searchTerms.search) || '') &&
-        (data.car?.vin?.toLowerCase().includes(searchTerms.search) || '') &&
+        (data.car?.vin?.toString().toLowerCase().includes(searchTerms.search) || '') &&
         (data.customer?.email_id?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.customer?.phone_no?.toLowerCase().includes(searchTerms.search) || '') &&
         (data.ins_company?.toLowerCase().includes(searchTerms.search) || '') &&
@@ -121,7 +138,7 @@ export class RentalListComponent implements OnInit {
     };
   }
 
-  onEdit(rental: Rental, additionalText: string): void {
-    this.router.navigate(['/rent', rental.rental_id], { queryParams: { text: additionalText } });
+  onEdit(rental: any, additionalText: string): void {
+    this.router.navigate(['/rent', rental.car.car_id], { queryParams: { text: additionalText } });
   }
 }
