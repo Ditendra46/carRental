@@ -84,26 +84,53 @@ const getAllRentals = async (req, res) => {
 
 const getRentalById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { data, error } = await supabase
+    const { data: rentals, error: rentalError } = await supabase
       .from('rental')
       .select('*')
       .eq('rental_id', id)
-      .single();
+      .single();;
 
-    if (error) throw error;
+    if (rentalError) throw rentalError;
+
+    // Fetch related car and customer data for each rental
+    const rentalDataWithRelations = await Promise.all(
+      rentals.map(async (rental) => {
+        const { data: car, error: carError } = await supabase
+          .from('cars')
+          .select('car_id,model, make, vin,rental_amount')
+          .eq('car_id_formatted', rental.inventory_id)
+          .single(); // Assuming Car_ID_Formatted is unique
+
+        if (carError) throw carError;
+
+        const { data: customer, error: customerError } = await supabase
+          .from('customers')
+          .select('name, email_id, phone_no,DL_No')
+          .eq('customer_id_formatted', rental.customer_id)
+          .single(); // Assuming Customer_ID_Formatted is unique
+
+        if (customerError) throw customerError;
+
+        return {
+          ...rental,
+          car: car || null, // Handle cases where car might not be found
+          customer: customer || null, // Handle cases where customer might not be found
+        };
+      })
+    );
 
     res.status(200).json({
       success: true,
-      data: data
+      data: rentalDataWithRelations,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
+
 const updateRental = async (req, res) => {
   try {
     const { id } = req.params; // Rental ID from the request parameters
