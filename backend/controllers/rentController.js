@@ -82,7 +82,117 @@ const getAllRentals = async (req, res) => {
   }
 };
 
+const getRentalById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('rental')
+      .select('*')
+      .eq('rental_id', id)
+      .single();
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      data: data
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+const updateRental = async (req, res) => {
+  try {
+    const { id } = req.params; // Rental ID from the request parameters
+    const {
+      inventory_id,
+      customer_id,
+      start_date,
+      end_date,
+      ins_company,
+      rental_status,
+      rental_amount,
+      notes,
+    } = req.body; // Include all fields you want to update
+
+    // Validate rental ID
+    const { data: rentalData, error: rentalError } = await supabase
+      .from('rental')
+      .select('*')
+      .eq('rental_id', id)
+      .single();
+
+    if (rentalError) {
+      return res.status(404).json({
+        success: false,
+        message: 'Rental not found',
+      });
+    }
+
+    // Validate inventory ID (car)
+    const { data: carData, error: carError } = await supabase
+      .from('cars')
+      .select('car_id')
+      .eq('car_id_formatted', inventory_id)
+      .single();
+
+    if (carError) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid inventory ID',
+      });
+    }
+
+    // Validate customer ID
+    const { data: customerData, error: customerError } = await supabase
+      .from('customers')
+      .select('customer_id')
+      .eq('customer_id_formatted', customer_id)
+      .single();
+
+    if (customerError) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid customer ID',
+      });
+    }
+
+    // Update rental details
+    const { data, error } = await supabase
+      .from('rental')
+      .update({
+        inventory_id,
+        customer_id,
+        start_date,
+        end_date,
+        ins_company,
+        rental_status, // New field
+        rental_amount, // New field
+        notes, // New field
+      })
+      .eq('rental_id', id)
+      .select();
+
+    if (error) throw error;
+
+    res.status(200).json({
+      success: true,
+      data: data,
+      message: 'Rental updated successfully',
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   addRental,
   getAllRentals,
+  getRentalById,
+  updateRental
 };
