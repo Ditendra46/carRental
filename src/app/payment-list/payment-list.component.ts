@@ -82,4 +82,7 @@ paymentLink(details: any) {
       }
     });
   }
+  onAddPayment(){
+    this.router.navigate(['/payment-form']);
+  }
 }

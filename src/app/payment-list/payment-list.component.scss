@@ -35,9 +35,14 @@
     justify-content: center;
     align-items: center;
     gap:16px;
-    width:100% /* Ensures the card is centered within its parent */
+    width:100% ;/* Ensures the card is centered within its parent */
+    
 
-  }
+}
+.header {
+  margin:10px;
+  float:right;
+}
   .link{
     background-color:#00C853;
     color:whitesmoke;
