@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-customer-form',
@@ -56,7 +57,7 @@ export class CustomerFormComponent implements OnInit {
   }
 
   private loadCustomerData(id: number | null): void {
-    this.http.get(`https://carrental-0zt3.onrender.com/api/customers/${id}`).subscribe({
+    this.http.get(`${environment.apiBaseUrl}/customers/${id}`).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.customerForm.patchValue(response.data);
@@ -68,23 +69,23 @@ export class CustomerFormComponent implements OnInit {
   private initForm(): void {
     this.customerForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
-      visa: ['', [Validators.required,Validators.maxLength(20)]],
-      referr_name: ['', Validators.maxLength(50)],
-      referr_phno: ['', [Validators.maxLength(15)]],
-      status: ['Prospect', Validators.required],
-      category: ['', Validators.required],
       email_id: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
-      phone_no: ['', [Validators.required, Validators.maxLength(15)]],
+      phone_no: ['', [Validators.required, Validators.pattern(/^\d{10}$/), Validators.maxLength(15)]],
       add_1: ['', [Validators.required, Validators.maxLength(100)]],
-      add_2: ['', Validators.maxLength(100)],
+      add_2: ['', [Validators.maxLength(100)]],
       city: ['', [Validators.required, Validators.maxLength(50)]],
       state: ['', [Validators.required, Validators.maxLength(50)]],
       zipcd: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
-      country: ['',[Validators.required, Validators.maxLength(50)]],
+      country: ['', [Validators.maxLength(50)]],
       dl_no: ['', [Validators.required, Validators.maxLength(50)]],
-      license_expiry_date: ['',[Validators.required, Validators.required]],
-      issue_date: ['', [Validators.required,Validators.required]],
-      comments: ['', Validators.maxLength(500)]
+      dl_exp_date: ['', [Validators.required]],
+      issue_state: ['', [Validators.required, Validators.maxLength(50)]],
+      visa: ['', [Validators.maxLength(20)]],
+      referr_name: ['', [Validators.maxLength(50)]],
+      referr_phno: ['', [Validators.pattern(/^\d{10}$/), Validators.maxLength(15)]],
+      status: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      comments: ['', [Validators.maxLength(250)]]
     });
   }
 
@@ -161,35 +162,46 @@ export class CustomerFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('Form Valid:', this.customerForm.valid);
+    console.log('Form Value:', this.customerForm.value);
+    console.log('Form Errors:', this.customerForm.errors);
+  
+    Object.keys(this.customerForm.controls).forEach((key) => {
+      const control = this.customerForm.get(key);
+      console.log(`Control: ${key}, Valid: ${control?.valid}, Errors: ${control?.errors}`);
+    });
+  
     if (this.customerForm.valid) {
-    const url = this.isEdit
-      ? `https://carrental-0zt3.onrender.com/api/customers/${this.customerId}`
-      : 'https://carrental-0zt3.onrender.com/api/customers';
-
-    const method = this.isEdit ? 'put' : 'post';
-
-    this.http[method](url, this.customerForm.value).subscribe({
-      next: (response: any) => {
-        if (response.success) {
-          this.route.navigate(['/customers']);
-        }
-      },
-      error:(error) => {
-        const errorMessage = error.error.message;
-       if (errorMessage.includes('Email')) {
-         this.customerForm.get('email_id')?.setErrors({ customError: errorMessage });
-       } 
-        if (errorMessage.includes('Phone number')) {
-         this.customerForm.get('phone_no')?.setErrors({ customError: errorMessage });
-       } 
-         this.errorMessage = errorMessage;
-       }  });
-  }
+      const url = this.isEdit
+        ? `${environment.apiBaseUrl}/customers/${this.customerId}`
+        : `${environment.apiBaseUrl}/customers`;
+  
+      const method = this.isEdit ? 'put' : 'post';
+  
+      this.http[method](url, this.customerForm.value).subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            this.route.navigate(['/customers']);
+          }
+        },
+        error: (error) => {
+          const errorMessage = error.error.message;
+          if (errorMessage.includes('Email')) {
+            this.customerForm.get('email_id')?.setErrors({ customError: errorMessage });
+          }
+          if (errorMessage.includes('Phone number')) {
+            this.customerForm.get('phone_no')?.setErrors({ customError: errorMessage });
+          }
+          this.errorMessage = errorMessage;
+        },
+      });
+    }
   }
   editCustomer(){
     this.customerForm.enable()
   }
   onReset(){
+    console.log(this.customerForm.valid)
     this.customerForm.reset();
   }
   backToCustomers(){

@@ -35,7 +35,7 @@
           <div class="form-row" >
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Phone Number</mat-label>
-                <input matInput formControlName="phNo" [matAutocomplete]="auto" (input)="onPhoneNumberInput()">
+                <input matInput formControlName="phNo" [matAutocomplete]="auto" (input)="onPhoneNumberInput()" [readonly]="additionalText !== 'rent'" class="readonly-input">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onPhoneNumberSelected($event.option.value)">
                   <mat-option *ngFor="let phone of filteredPhoneNumbers" [value]="phone">
                     {{ phone }}
@@ -68,7 +68,7 @@
         <div class="form-row">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Inventory ID</mat-label>
-              <input matInput formControlName="inventory_id" readonly class="readonly-input">
+              <input matInput formControlName="car_id" readonly class="readonly-input">
             </mat-form-field>
           </div>
         <div class="form-row">
@@ -121,7 +121,17 @@
             <input matInput type="number" formControlName="rate" required>
           </mat-form-field>
         </div>
-  
+  <div class="form-row" *ngIf="additionalText !== 'rent'">
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Days</mat-label>
+      <input matInput type="number" formControlName="days" [readonly]="additionalText !== 'rent'" class="readonly-input" required>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>total_rent_amount</mat-label>
+      <input matInput type="number" formControlName="total_rent_amount" required>
+    </mat-form-field>
+
+  </div>
         <div class="form-row">
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Discount (%)</mat-label>
@@ -139,10 +149,10 @@
         </div>
   
         <div class="form-row">
-          <mat-form-field appearance="outline" class="half-width">
+          <!-- <mat-form-field appearance="outline" class="half-width">
             <mat-label>Advance Amount</mat-label>
             <input matInput type="number" formControlName="adv_amnt">
-          </mat-form-field>
+          </mat-form-field> -->
   
           <mat-form-field appearance="outline" class="half-width">
             <mat-label>Reference Amount</mat-label>
@@ -165,7 +175,7 @@
        
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!rentForm.valid">Submit</button>
+        <button mat-raised-button color="primary" type="submit" >Submit</button>
       </mat-card-actions>
     </mat-card>
   </form>

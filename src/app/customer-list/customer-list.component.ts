@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Customer } from '../interfaces/Customer.interface';
 import { Router } from '@angular/router';
+import { environment } from 'src/environment';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class CustomerListComponent implements OnInit {
 
   private loadCustomers(): void {
     this.loading = true;
-    this.http.get<Customer[]>('https://carrental-0zt3.onrender.com/api/customers').subscribe({
+    this.http.get<Customer[]>(`${environment.apiBaseUrl}/customers`).subscribe({
       next: (response: any) => {
         this.customers = response.data;
         this.loading = false;
@@ -56,7 +57,7 @@ export class CustomerListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete(`https://carrental-0zt3.onrender.com/api/customers/${customer.customer_id}`).subscribe({
+        this.http.delete(`${environment.apiBaseUrl}/customers/${customer.customer_id}`).subscribe({
           next: () => {
             this.loadCustomers(); // Refresh the list
           },

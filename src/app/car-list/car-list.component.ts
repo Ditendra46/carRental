@@ -5,6 +5,7 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { Cardetails } from '../interfaces/Cardetails.interface';
 import { Car } from '../interfaces/Car.interface';
 import { Router } from '@angular/router';
+import { environment } from 'src/environment';
 
 
 
@@ -30,7 +31,7 @@ export class CarListComponent implements OnInit {
 
   private loadCars(): void {
     this.loading = true;
-    this.http.get<any>('https://carrental-0zt3.onrender.com/api/cars').subscribe({
+    this.http.get<any>(`${environment.apiBaseUrl}/cars`).subscribe({
       next: (response) => {
         this.cars = response.data;
         this.loading = false;
@@ -60,7 +61,7 @@ export class CarListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete(`https://carrental-0zt3.onrender.com/api/cars/${car.car_id}`).subscribe({
+        this.http.delete(`${environment.apiBaseUrl}/cars/${car.car_id}`).subscribe({
           next: () => {
             this.loadCars(); // Refresh the list
           },

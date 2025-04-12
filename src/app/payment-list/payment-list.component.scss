@@ -1,0 +1,48 @@
+.expanded-row {
+    background-color: #f9f9f9;
+  }
+  
+  .expanded-content {
+    padding: 16px;
+  }
+  
+  .inner-table {
+    width: auto;
+    border-collapse: collapse;
+  }
+  
+  .inner-table th,
+  .inner-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .inner-table th {
+    background-color: #f1f1f1;
+    text-align: left;
+  }
+  .cancel{
+    background-color: red;
+    color: aliceblue;
+    
+  }
+  .mat-elevation-z8{
+    width:auto
+  }
+  .payment-list-card{
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:16px;
+    width:100% /* Ensures the card is centered within its parent */
+
+  }
+  .link{
+    background-color:#00C853;
+    color:whitesmoke;
+  }
+  .disabled-button{
+    opacity: 0.2;
+    cursor: not-allowed;
+  }

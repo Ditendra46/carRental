@@ -11,7 +11,7 @@ export class UserService {
   private userSource = new BehaviorSubject<string | null>(null);
   currentUser = this.userSource.asObservable();
 
-  private apiUrl = `${environment.apiUrl}`;
+  private apiUrl = `${environment.apiBaseUrl}`;
 
   constructor(private http: HttpClient) {   // Load user from local storage if available
     const user = localStorage.getItem('user');
@@ -37,10 +37,10 @@ logOutUser(){
     this.userSource.next(null);
 }
 updateCar(licensePlate: string, carData: any): Observable<any> {
-  return this.http.put(`https://carrental-0zt3.onrender.com/api/cars/${licensePlate}`, carData);
+  return this.http.put(`${environment.apiBaseUrl}/cars/${licensePlate}`, carData);
 }
 deleteCar(licensePlate: string): Observable<any> {
-  return this.http.delete(`https://carrental-0zt3.onrender.com/api/cars/${licensePlate}`);
+  return this.http.delete(`${environment.apiBaseUrl}/cars/${licensePlate}`);
 }
 getCars():Observable<any[]>{
   return this.http.get<any[]>('http://localhost:3000/api/products')

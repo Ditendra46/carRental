@@ -6,6 +6,7 @@ import { Cardetails } from '../interfaces/Cardetails.interface';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-car-list',
@@ -13,7 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./car-list.component.scss']
 })
 export class CarListComponent implements OnInit,AfterViewInit {
-  displayedColumns: string[] = ['actions', 'make', 'model', 'vin', 'color', 'status', 'procure_date'];
+  displayedColumns: string[] = ['actions', 'make', 'model', 'vin', 'color', 'status', 'procure_date','Rate'];
   cars = new MatTableDataSource<Cardetails>([]);
   loading = true;
   error = '';
@@ -89,7 +90,7 @@ export class CarListComponent implements OnInit,AfterViewInit {
 
   private loadCars(): void {
     this.loading = true;
-    this.http.get<any>('https://carrental-0zt3.onrender.com/api/cars').subscribe({
+    this.http.get<any>(`${environment.apiBaseUrl}/cars`).subscribe({
       next: (response) => {
         this.cars.data = response.data;
         const statusSet = new Set<string>();
@@ -177,7 +178,7 @@ export class CarListComponent implements OnInit,AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete(`https://carrental-0zt3.onrender.com/api/cars/${car.car_id}`).subscribe({
+        this.http.delete(`${environment.apiBaseUrl}/cars/${car.car_id}`).subscribe({
           next: () => {
             this.loadCars(); // Refresh the list
           },

@@ -1,0 +1,95 @@
+<div class="payment-form-container">
+  <h2>Payment Form</h2>
+  <form [formGroup]="paymentForm">
+    <!-- Combined User Details and Payment Section -->
+    <mat-card class="combined-card">
+      <mat-card-header>
+        <mat-card-title>User and Payment Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- User Details Section -->
+        <div class="user-details-section">
+          <h3>User Details</h3>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              formControlName="phone_number"
+              [matAutocomplete]="auto"
+              (input)="onPhoneNumberInput()"
+              placeholder="Enter Phone Number"
+              required
+            />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onPhoneNumberSelected($event.option.value)">
+              <mat-option *ngFor="let phone of filteredPhoneNumbers" [value]="phone">
+                {{ phone }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Customer ID</mat-label>
+            <input matInput formControlName="customer_id" readonly />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" readonly />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" readonly />
+          </mat-form-field>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+          <h3>Payment Details</h3>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Payment Amount ($)</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="payment_amount"
+              placeholder="Enter payment amount"
+              min="0"
+              step="0.01"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Payment Method</mat-label>
+            <mat-select formControlName="payment_method">
+              <mat-option value="Cash">Cash</mat-option>
+              <mat-option value="Cheque">Cheque</mat-option>
+              <mat-option value="Card">Card</mat-option>
+              <mat-option value="Online Transfer">Online Transfer</mat-option>
+              <mat-option value="Bank Deposit">Bank Deposit</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Purpose</mat-label>
+            <mat-select formControlName="purpose">
+              <mat-option value="Parts">Parts</mat-option>
+              <mat-option value="Rental">Rental</mat-option>
+              <mat-option value="sale">sale</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Note</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="note"
+              placeholder="Enter note"
+            />
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="submitPayment()"
+          >
+            Apply Payment
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Rental } from '../interfaces/Rental.interface';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-rental-list',
@@ -73,7 +74,7 @@ export class RentalListComponent implements OnInit ,AfterViewInit{
     //this.cdr.detectChanges();
   }
   fetchRentals(): void {
-    this.http.get('https://carrental-0zt3.onrender.com/api/rentals').subscribe({
+    this.http.get(`${environment.apiBaseUrl}/rentals`).subscribe({
       next: (response: any) => {
         if (response.success) {
           this.rentals.data = response.data;
@@ -163,6 +164,7 @@ export class RentalListComponent implements OnInit ,AfterViewInit{
   }
 
   onEdit(rental: any, additionalText: string): void {
-    this.router.navigate(['/rent', rental.car.car_id], { queryParams: { text: additionalText } });
+
+    this.router.navigate(['/rent', rental.rental_id], { queryParams: { text: additionalText } });
   }
 }

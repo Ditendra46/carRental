@@ -113,7 +113,7 @@ const getCustomerById = async (req, res) => {
     const { data, error } = await supabase
       .from('customers')
       .select('*')
-      .eq('customer_id', id)
+      .eq('customer_id_formatted', id)
       .single();
 
     if (error) throw error;
@@ -209,11 +209,44 @@ const getCustomerByPhno = async (req, res) => {
   }
 };
 
+const searchCustomers = async (req, res) => {
+  try {
+    const query = req.query.query;
+
+    // Check if the query is a valid integer or a string
+    if (!isNaN(parseInt(query))) {
+      // If the query is an integer, search by customer_id
+      const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('customer_id', query);
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true, data });
+    } else {
+      // If the query is a string, perform a case-insensitive search
+      const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .ilike('customer_id_formatted', `%${query}%`); // Case-insensitive search
+
+      if (error) throw error;
+
+      return res.status(200).json({ success: true, data });
+    }
+  } catch (error) {
+    console.error('Error searching customers:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getAllCustomers,
   addCustomer,
   deleteCustomer,
   getCustomerById,
   updateCustomer,
-  getCustomerByPhno
+  getCustomerByPhno,
+  searchCustomers
 };

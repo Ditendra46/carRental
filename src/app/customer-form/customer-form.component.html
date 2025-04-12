@@ -117,10 +117,10 @@
                 <!-- Driving License Expiry Date -->
                 <mat-form-field appearance="fill" class="form-field">
                   <mat-label>DL Expiry Date</mat-label>
-                  <input matInput [matDatepicker]="picker" formControlName="license_expiry_date" required>
+                  <input matInput [matDatepicker]="picker" formControlName="dl_exp_date" required>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
-                  <mat-error *ngIf="customerForm.get('license_expiry_date')?.hasError('required')">
+                  <mat-error *ngIf="customerForm.get('dl_exp_date')?.hasError('required')">
                     Driving License Expiry Date is required
                   </mat-error>
                 </mat-form-field>

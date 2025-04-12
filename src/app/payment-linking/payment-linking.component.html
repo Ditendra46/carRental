@@ -1,0 +1,175 @@
+<div class="payment-linking-container">
+  <!-- Header Section -->
+  <form [formGroup]="paymentForm">
+
+    <mat-card class="header-card">
+      <mat-card-title>Apply Payments to Bills</mat-card-title>
+    </mat-card>
+    <!-- Customer and Balance Section -->
+    <mat-card class="customer-card">
+      <mat-card-content>
+        <div class="customer-details-row">
+          <!-- Phone Number -->
+          <mat-form-field appearance="outline" class="customer-field">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone_number" [matAutocomplete]="auto" (input)="onPhoneNumberInput()"
+              placeholder="Enter Phone Number" required />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onPhoneNumberSelected($event.option.value)">
+              <mat-option *ngFor="let phone of filteredPhoneNumbers" [value]="phone">
+                {{ phone }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!-- Customer ID -->
+          <mat-form-field appearance="outline" class="customer-field">
+            <mat-label>Customer ID</mat-label>
+            <input matInput formControlName="customer_id" readonly />
+          </mat-form-field>
+
+          <!-- Name -->
+          <mat-form-field appearance="outline" class="customer-field">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" readonly />
+          </mat-form-field>
+
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="customer-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" readonly />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+    <!-- Previous Payments History Section -->
+    <mat-card class="history-card" >
+      <mat-card-title>Previous Payments History</mat-card-title>
+      <mat-card-content>
+        <table mat-table [dataSource]="previousPayments" class="mat-elevation-z8 full-width">
+          <!-- Columns -->
+          <ng-container matColumnDef="paymentId">
+            <th mat-header-cell *matHeaderCellDef> Payment ID </th>
+            <td mat-cell *matCellDef="let payment"> {{ payment.payment_id_formatted }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let payment"> {{ payment.payment_date }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let payment"> ₹{{ payment.amount }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="unusedAmount">
+            <th mat-header-cell *matHeaderCellDef> Unused Amount </th>
+            <td mat-cell *matCellDef="let payment"> ₹{{ payment.remaining_amount }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef> 
+              <mat-checkbox
+              [checked]="isAllPaymentsSelected()"
+              [indeterminate]="isPaymentsIndeterminate()"
+              (change)="toggleAllPayments($event.checked)">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let payment">
+              <!-- Individual Checkbox -->
+              <mat-checkbox [(ngModel)]="payment.selected" (change)="onPaymentSelectionChange(payment)"></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['paymentId', 'date', 'amount', 'unusedAmount', 'select']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['paymentId', 'date', 'amount', 'unusedAmount', 'select']"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Pending Bills Section -->
+    <mat-card class="bills-card">
+      <mat-card-title>Pending Bills</mat-card-title>
+      <mat-card-content>
+        <table mat-table [dataSource]="rentalDetails" class="mat-elevation-z8 full-width">
+          <!-- Columns -->
+          <ng-container matColumnDef="invoiceNo">
+            <th mat-header-cell *matHeaderCellDef>Rental DetailId </th>
+            <td mat-cell *matCellDef="let bill"> {{ bill.rental_detail_id_formatted }} </td>
+          </ng-container>
+          <ng-container matColumnDef="renatl_id">
+            <th mat-header-cell *matHeaderCellDef>Rental id </th>
+            <td mat-cell *matCellDef="let bill"> {{ bill.rental_id }} </td>
+          </ng-container>
+          <ng-container matColumnDef="start_date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let bill"> {{ bill.period_start_date }} </td>
+          </ng-container>
+          <ng-container matColumnDef="end_date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let bill"> {{ bill.
+              period_end_date }} </td>
+          </ng-container>
+          <ng-container matColumnDef="dueAmount">
+            <th mat-header-cell *matHeaderCellDef> Total Amount </th>
+            <td mat-cell *matCellDef="let bill"> ₹{{ bill.prorated_amount }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="paid">
+            <th mat-header-cell *matHeaderCellDef> Due Amount </th>
+            <td mat-cell *matCellDef="let bill"> ₹{{bill.prorated_amount- bill.total_paid  }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="applyAmount">
+            <th mat-header-cell *matHeaderCellDef>Apply Amount</th>
+            <td mat-cell *matCellDef="let bill; let i = index">
+              <input matInput type="number" [(ngModel)]="rentalDetails[i].applied_amount" 
+                     (input)="Amountapplied(bill, i)" placeholder="₹0" />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <!-- Select All Checkbox -->
+              <mat-checkbox
+                [checked]="isAllSelected()"
+                [indeterminate]="isIndeterminate()"
+                (change)="toggleAllRows($event.checked)">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let bill">
+              <!-- Individual Checkbox -->
+              <mat-checkbox [(ngModel)]="bill.selected" (change)="onBillSelectionChange(bill)"></mat-checkbox>
+            </td>
+          </ng-container>
+          <tr mat-header-row
+            *matHeaderRowDef="['select','invoiceNo','renatl_id','start_date','end_date', 'dueAmount', 'paid', 'applyAmount']">
+          </tr>
+          <tr mat-row
+            *matRowDef="let row; columns: ['select','invoiceNo','renatl_id','start_date', 'end_date','dueAmount', 'paid', 'applyAmount']">
+          </tr>
+        </table>
+      </mat-card-content>
+      <div class="actions">
+ <!-- <button mat-raised-button color="primary" (click)="calculateTotals()">Calculate Totals</button> -->
+        <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="accent" (click)="applyPayments()">Apply Payments</button>
+
+      </div>
+      <div>
+        <span>Applied: ₹{{        appliedAmount || 0 }} | Remaining Balance: ₹{{ remainingBalance || 0 }}</span>
+      </div>
+    </mat-card>
+
+    <!-- Actions Section -->
+    
+</div>
+
+<div class="dropdown-container">
+  <label for="transactionType">Transaction Type:</label>
+  <select id="transactionType" [(ngModel)]="transactionType" (change)="onTransactionTypeChange($event)">
+    <option value="rental">Rental</option>
+    <option value="sale">Sale</option>
+  </select>
+</div>

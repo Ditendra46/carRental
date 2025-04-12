@@ -18,6 +18,9 @@ import { RentalListComponent } from './rental-list/rental-list.component';
 import { CarListComponent } from './car-list-new/car-list.component';
 import { CustomerListComponent } from './customer-list-new/customer-list.component';
 import { RentalCarDashboardComponent } from './rental-car-dashboard/rental-car-dashboard.component';
+import { PaymentFormComponent } from './payment-form/payment-form.component';
+import { PaymentListComponent } from './payment-list/payment-list.component';
+import { PaymentLinkingComponent } from './payment-linking/payment-linking.component';
 const routes: Routes = [
   {path:'',children:[
     {path:'',component:ProductsComponent},
@@ -38,7 +41,12 @@ const routes: Routes = [
     { path: 'customer-form/:id', component: CustomerFormComponent },
     { path: 'rent/:carId', component: RentFormComponent },
     { path: 'rental-list', component: RentalListComponent},
-    { path: 'rental-dashboard', component: RentalCarDashboardComponent}
+    { path: 'rental-dashboard', component: RentalCarDashboardComponent},
+    {path:'payment-form',component:PaymentFormComponent},
+    {path:'payment-list',component:PaymentListComponent},
+    {path:'payment-link',component:PaymentLinkingComponent},
+    {path:'payment-link/:cus_id',component:PaymentLinkingComponent}
+
 
   ]}
 ];

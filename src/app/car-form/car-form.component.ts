@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environment';
 
 export interface CarFormSections {
   vehicleDetails: string[];
@@ -81,7 +82,7 @@ export class CarFormComponent implements OnInit {
 
 
   private loadCarData(id: number | null): void {
-    this.http.get(`https://carrental-0zt3.onrender.com/api/cars/${id}`).subscribe({
+    this.http.get(`${environment.apiBaseUrl}/cars/${id}`).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.carForm.patchValue(response.data);
@@ -106,7 +107,7 @@ export class CarFormComponent implements OnInit {
       sales_tax: ['', [Validators.required, Validators.min(0)]],
       retail_price: ['', [Validators.required, Validators.min(0)]],
       wholesale_price: ['', [Validators.required, Validators.min(0)]],
-      rental_amount: ['', [Validators.min(0)]],
+      default_rental_rate: ['', [Validators.min(0)]],
       sold_price: ['', [Validators.min(0)]],
       status: ['', [Validators.required]],
       procure_date: ['', [Validators.required]],
@@ -181,8 +182,8 @@ export class CarFormComponent implements OnInit {
   onSubmit(): void {
       if (this.carForm.valid) {
       const url = this.isEdit
-        ? `https://carrental-0zt3.onrender.com/api/cars/${this.carId}`
-        : 'https://carrental-0zt3.onrender.com/api/cars';
+        ? `${environment.apiBaseUrl}/cars/${this.carId}`
+        : `${environment.apiBaseUrl}/cars`;
 
       const method = this.isEdit ? 'put' : 'post';
       console.log('Form:', this.carForm.value);

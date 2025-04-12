@@ -45,7 +45,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RentalCarDashboardComponent } from './rental-car-dashboard/rental-car-dashboard.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
-@NgModule({
+import { MatListModule } from '@angular/material/list';
+import { PaymentFormComponent } from './/payment-form/payment-form.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { PaymentListComponent } from './payment-list/payment-list.component';
+import { PaymentLinkingComponent } from './payment-linking/payment-linking.component';@NgModule({
   declarations: [
     AppComponent,
     BikesComponent,
@@ -65,7 +70,10 @@ import { MatDividerModule } from '@angular/material/divider';
     CustomerListComponent,
     RentFormComponent,
     RentalListComponent,
-    RentalCarDashboardComponent
+    RentalCarDashboardComponent,
+    PaymentFormComponent,
+    PaymentListComponent,
+    PaymentLinkingComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,9 +99,11 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCheckboxModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatDividerModule,
+    MatListModule,
     MatPaginatorModule,
-    MatDividerModule
-
+    MatSnackBarModule,
+    MatRadioModule 
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

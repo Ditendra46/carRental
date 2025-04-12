@@ -1,0 +1,113 @@
+.rental-data {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 16px;
+    gap:10px
+  }
+  
+  .rentals-card,
+  .rental-details-card {
+    min-width: 0;
+    width: 45vw; /* Reduced width */
+    position: relative;
+    box-sizing: border-box;
+   // font-size: 0.575rem; /* Reduced font size (small) */
+    display: flex;
+  }
+  
+  .rentals-card mat-form-field,
+  .rental-details-card mat-form-field {
+    width: 15%; /* Decreased form field width */
+    margin-bottom: 8px; /* Add spacing between fields */
+  }
+  
+  :host ::ng-deep mat-mdc-form-field-infix {
+    flex: auto;
+    min-width: 0;
+    width: 90px;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .rental-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px; /* Add spacing between rows */
+    font-size: 0.875rem; /* Adjust font size */
+  }
+  
+  .rental-detail-row strong {
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  
+  .rental-detail-row span {
+    flex: 1;
+    text-align: right;
+  }
+
+  .payment-card {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers the card horizontally */
+    align-items: center; /* Centers the card vertically if needed */
+    margin: 16px auto;
+    gap:16px /* Ensures the card is centered within its parent */
+  }
+  .user-card{
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers the card horizontally */
+    align-items: center; /* Centers the card vertically if needed */
+    margin: 16px auto;
+    gap:16px /* Ensures the card is centered within its parent */
+  }
+  // .user-card1{
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center; /* Centers the card horizontally */
+  //   align-items: center; /* Centers the card vertically if needed */
+  //   margin: 16px auto;
+  //   gap:16px /* Ensures the card is centered within its parent */
+  // }
+  // .payment-section {
+  //   display: block;
+  //   justify-content: center;
+  //   align-items: center;
+  //   margin-top: 16px;
+  // }
+  // .payment-form-container{
+  //   width: 50vw;
+  //   display: flex;
+  //   height: 100vh;
+  //   justify-content: center; /* Centers the card horizontally */
+  //  // align-items: center; /* Centers the card vertically if needed */
+  //   margin: 16px auto;
+  //   gap:16px /* Ensures the card is centered within its parent */
+  // }
+  .combined-card {
+    width: 50%; /* Reduce the width of the card */
+    margin: 16px auto; /* Center the card horizontally */
+    padding: 16px; /* Adjust padding for a smaller appearance */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    background-color: #ffffff; /* Optional: Set a background color */
+  }
+  
+  .user-details-section,
+  .payment-section {
+    margin-bottom: 16px; /* Reduce spacing between sections */
+  }
+  
+  h3 {
+    margin-bottom: 12px; /* Reduce spacing below section headers */
+    font-size: 1rem; /* Reduce font size for section headers */
+    font-weight: bold;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  mat-form-field {
+    margin-bottom: 12px; /* Reduce spacing between form fields */
+  }

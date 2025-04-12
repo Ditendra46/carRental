@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Customer } from '../interfaces/Customer.interface';
 import { MatPaginator } from '@angular/material/paginator';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-customer-list',
@@ -67,7 +68,7 @@ export class CustomerListComponent implements OnInit,AfterViewInit {
   }
   private loadCustomers(): void {
     this.loading = true;
-    this.http.get<any>('https://carrental-0zt3.onrender.com/api/customers').subscribe({
+    this.http.get<any>(`${environment.apiBaseUrl}/customers`).subscribe({
       next: (response) => {
         this.customers.data = response.data;
   
@@ -169,7 +170,7 @@ export class CustomerListComponent implements OnInit,AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete(`https://carrental-0zt3.onrender.com/api/customers/${customer.customer_id}`).subscribe({
+        this.http.delete(`${environment.apiBaseUrl}/customers/${customer.customer_id}`).subscribe({
           next: () => {
             this.loadCustomers(); // Refresh the list
           },
