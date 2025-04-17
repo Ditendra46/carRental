@@ -1,88 +1,76 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environment';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-payment-list',
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.scss']
 })
-export class PaymentListComponent {
-  patmentList: any;
-  //displayedColumns= ['payment_id','rental_detail_id','customer_id', 'created_date','amount','payment_method', 'payment_date','note','actions'];
-  expandedElement: any | null = null;
-  displayedColumns: string[] = [ 'payment_id', 'customer_id', 'payment_date', 'amount','remaining_amount','payment_method','payment_status','actions'];
-  expand:boolean= false;
+export class PaymentListComponent implements OnInit {
+  displayedColumns: string[] = ['rental_detail_id', 'payment_id', 'customer_id', 'payment_date', 'amount', 'remaining_amount', 'payment_method', 'payment_status', 'actions'];
+  patmentList = new MatTableDataSource<any>([]);
+  filteredPayments = this.patmentList;
+  constructor(private http: HttpClient, private dialog: MatDialog, private router: Router) {}
 
-  constructor(private http: HttpClient,private router: Router) {
-    // Initialize the component
+  ngOnInit(): void {
+    this.refreshPaymentList();
   }
-  ngOnInit() {
-    this.http.get(`${environment.apiBaseUrl}/payments`).subscribe({
-          next: (response: any) => {
-            console.log(response);
-            this.patmentList= response.data;
-            // Handle the response data
-    // Perform any necessary initialization
-  }})
-}
-paymentLink(details: any) {
-  // Navigate to the payment details page with the given ID
-  // this.router.navigate(['/payment-form', id]);
-  // const params =  details.payment_id_formatted;
-  // console.log(params);
-  // this.http.get(`${environment.apiBaseUrl}/payments/link/${params}`).subscribe({
-  //   next:(response:any)=>{
-      this.router.navigate(['/payment-link',details.customer_id]) 
-      // Optionally, refresh the payment list after voiding
-  //  }
 
- // })
-  // Add your logic here to handle the payment link
-  // For example, you might want to open a dialog or navigate to a different route
-  // this.router.navigate(['/payment-form', id]);
-}
-
-  toggleRow(element: any): void {
-    this.expand=!this.expand
-    this.expandedElement = this.expandedElement === element ? null : element;
-  }
-  onPaymentAction(details: any): void {
-    if (!details || !details.payment_id_formatted) {
-      console.error('Invalid payment details provided.');
-      return;
-    }
-  
-    const payload = { paymentId: details.payment_id_formatted };
-  
-    this.http.put(`${environment.apiBaseUrl}/payments/void`, payload).subscribe({
-      next: (response: any) => {
-        console.log('Payment voided successfully:', response);
-        // Optionally, refresh the payment list after voiding
-        this.refreshPaymentList();
-      },
-      error: (error) => {
-        console.error('Error voiding payment:', error);
-        // Optionally, show an error message to the user
-        alert('Failed to void the payment. Please try again.');
-      }
-    });
-  }
-  
-  // Refresh the payment list after voiding a payment
   refreshPaymentList(): void {
     this.http.get(`${environment.apiBaseUrl}/payments`).subscribe({
       next: (response: any) => {
-        console.log('Payment list refreshed:', response);
-        this.patmentList = response.data;
+        this.patmentList.data = response.data;
+        this.filteredPayments = this.patmentList;
       },
       error: (error) => {
-        console.error('Error refreshing payment list:', error);
+        console.error('Error fetching payment list:', error);
       }
     });
   }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filteredPayments.filter = filterValue;
+  }
+
+  confirmCancel(payment: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { 
+        title: 'Cancel Payment',
+        message: `Are you sure you want to cancel payment ${payment.payment_id_formatted}?` }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.cancelPayment(payment.payment_id_formatted);
+      }
+    });
+  }
+
+  cancelPayment(paymentId: string): void {
+    this.http.put(`${environment.apiBaseUrl}/payments/void`, { paymentId }).subscribe({
+      next: () => {
+        this.refreshPaymentList();
+      },
+      error: (error) => {
+        console.error('Error cancelling payment:', error);
+      }
+    });
+  }
+
+  paymentLink(payment: any): void {
+    this.router.navigate(['/payment-link', payment.customer_id]);
+
+    console.log(`Linking payment ${payment.payment_id}`);
+  }
   onAddPayment(){
     this.router.navigate(['/payment-form']);
-  }
+
+}
 }

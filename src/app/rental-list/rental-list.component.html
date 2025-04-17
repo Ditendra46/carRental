@@ -107,8 +107,11 @@
 
       <!-- Advance Amount Column -->
       <ng-container matColumnDef="Adv_Amnt">
-        <th mat-header-cell *matHeaderCellDef> PayMent Status </th>
-        <td mat-cell *matCellDef="let rental"> {{rental?.payment_status}} </td>
+        <th mat-header-cell *matHeaderCellDef> Payment Status </th>
+        <td mat-cell *matCellDef="let rental">
+          <span [ngClass]="getPaymentStatusClass(rental?.payment_status)" class="payment-status-circle"></span>
+          <span class="payment-status-text">{{ rental?.payment_status }}</span>
+        </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>

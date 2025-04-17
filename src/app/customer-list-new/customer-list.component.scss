@@ -92,4 +92,61 @@
     border-top: 10px solid #938888 !important; 
     overflow-x: hidden;/* Optional border for separation */
   }
+  /* Filters Section */
+mat-form-field {
+  border-radius: 6px;
+}
+
+mat-icon[matPrefix] {
+  margin-right: 8px;
+}
+
+/* Table Header */
+th.mat-header-cell {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  width: 12px; /* Adjust size for the circle */
+  height: 12px; /* Adjust size for the circle */
+  border-radius: 50%; /* Makes the element circular */
+  margin-right: 8px; /* Space between the circle and the text */
+}
+
+
+.status-badge.active {
+  background-color: #4caf50; /* Green */
+}
+
+.status-badge.prospect {
+  background-color: #ffeb3b; /* Yellow */
+  color: black;
+}
+
+.status-badge.blocked {
+  background-color: #f44336; /* Red */
+}
+
+.status-badge.hold {
+  background-color: #9e9e9e; /* Gray */
+}
+
+/* License Expiry */
+.expired {
+  color: red;
+  font-weight: bold;
+}
+
+/* Row Highlight */
+.selected-row {
+  background-color: #e3f2fd; /* Light blue */
+}
+
+/* Actions */
+button.mat-icon-button {
+  margin-right: 8px;
+}
   

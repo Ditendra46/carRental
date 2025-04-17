@@ -30,24 +30,48 @@
     width:auto
   }
   .payment-list-card{
-    width: auto;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:16px;
-    width:100% ;/* Ensures the card is centered within its parent */
-    
-
-}
+    flex-direction: column;
+    gap: 16px;
+  }
 .header {
   margin:10px;
   float:right;
 }
   .link{
-    background-color:#00C853;
+    background-color:#219a51;
     color:whitesmoke;
   }
   .disabled-button{
     opacity: 0.2;
     cursor: not-allowed;
   }
+
+.search-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.highlight-row {
+  background-color: #fff9c4; /* Light yellow for rows with remaining amount > 0 */
+}
+
+.void-row {
+  background-color: #f5f5f5; /* Light grey for void rows */
+  color: #9e9e9e;
+}
+
+button[mat-icon-button] {
+  margin-right: 8px;
+}
+
+button[mat-icon-button]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

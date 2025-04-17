@@ -8,122 +8,131 @@
   </div>
   <div class="filter-bar">
     <div class="filters">
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Search</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Enter search term">
-    </mat-form-field>
-     -->
-    <!-- Filter by Name -->
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by Name</mat-label>
-      <input matInput (keyup)="applyNameFilter($event)" placeholder="Enter name" [value]="filterValues.name">
-      <button mat-icon-button matSuffix *ngIf="filterValues.name" (click)="clearNameFilter()">
-        <mat-icon>clear</mat-icon>
-      </button>
-    </mat-form-field>
+      <!-- Filter by Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Name</mat-label>
+        <mat-icon matPrefix>search</mat-icon> <!-- Add search icon -->
+        <input matInput (keyup)="applyNameFilter($event)" placeholder="Enter name" [value]="filterValues.name">
+        <button mat-icon-button matSuffix *ngIf="filterValues.name" (click)="clearNameFilter()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
 
-    <!-- Filter by Email -->
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by Email</mat-label>
-      <input matInput (keyup)="applyEmailFilter($event)" placeholder="Enter email" [value]="filterValues.email">
-      <button mat-icon-button matSuffix *ngIf="filterValues.email" (click)="clearEmailFilter()">
-        <mat-icon>clear</mat-icon>
-      </button>
-    </mat-form-field>
+      <!-- Filter by Email -->
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Email</mat-label>
+        <mat-icon matPrefix>search</mat-icon> <!-- Add search icon -->
+        <input matInput (keyup)="applyEmailFilter($event)" placeholder="Enter email" [value]="filterValues.email">
+        <button mat-icon-button matSuffix *ngIf="filterValues.email" (click)="clearEmailFilter()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
 
-    <!-- Filter by Phone -->
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by Phone</mat-label>
-      <input matInput (keyup)="applyPhoneFilter($event)" placeholder="Enter phone number" [value]="filterValues.phone">
-      <button mat-icon-button matSuffix *ngIf="filterValues.phone" (click)="clearPhoneFilter()">
-        <mat-icon>clear</mat-icon>
-      </button>
-    </mat-form-field>
+      <!-- Filter by Phone -->
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Phone</mat-label>
+        <mat-icon matPrefix>search</mat-icon> <!-- Add search icon -->
+        <input matInput (keyup)="applyPhoneFilter($event)" placeholder="Enter phone number" [value]="filterValues.phone">
+        <button mat-icon-button matSuffix *ngIf="filterValues.phone" (click)="clearPhoneFilter()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
 
-    <!-- Filter by City -->
-    <mat-form-field appearance="outline">
-      <mat-label>Filter by City</mat-label>
-      <input matInput (keyup)="applyCityFilter($event)" placeholder="Enter city" [value]="filterValues.city">
-      <button mat-icon-button matSuffix *ngIf="filterValues.city" (click)="clearCityFilter()">
-        <mat-icon>clear</mat-icon>
-      </button>
-    </mat-form-field>
-      
-  </div>
-  <span class="total-count">Total Customers: {{customers.filteredData.length}}</span>
+      <!-- Filter by City -->
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by City</mat-label>
+        <mat-icon matPrefix>search</mat-icon> <!-- Add search icon -->
+        <input matInput (keyup)="applyCityFilter($event)" placeholder="Enter city" [value]="filterValues.city">
+        <button mat-icon-button matSuffix *ngIf="filterValues.city" (click)="clearCityFilter()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <span class="total-count">Total Customers: {{customers.filteredData.length}}</span>
   </div>
   <div class="loading-error" *ngIf="loading || error">
     <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
     <p class="error-message" *ngIf="error">{{error}}</p>
   </div>
 
-    <table mat-table [dataSource]="customers" class="mat-elevation-z8">
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
-      </ng-container>
+  <table mat-table [dataSource]="customers" class="mat-elevation-z8">
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
+    </ng-container>
 
-      <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.email_id}} </td>
-      </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.email_id}} </td>
+    </ng-container>
 
-      <!-- Phone Column -->
-      <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef> Phone </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.phone_no}} </td>
-      </ng-container>
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.phone_no}} </td>
+    </ng-container>
 
-      <!-- City Column -->
-      <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> City </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.city}} </td>
-      </ng-container>
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.city}} </td>
+    </ng-container>
 
-      <!-- State Column -->
-      <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef> State </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.state}} </td>
-      </ng-container>
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> State </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.state}} </td>
+    </ng-container>
 
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.status}} </td>
-      </ng-container>
-      <!-- Created Date Column -->
-      <ng-container matColumnDef="craetedDate">
-        <th mat-header-cell *matHeaderCellDef> Created Date(Start Date) </th>
-        <td mat-cell *matCellDef="let customer"> {{customer.created_date | date:'dd-MM-yyyy'}} </td>
-      </ng-container>
-<!--Driving License Expiry Date Column-->
-<ng-container matColumnDef="licenseExpiry">
-  <th mat-header-cell *matHeaderCellDef> License Expiry </th>
-  <td mat-cell *matCellDef="let customer"> {{customer.dl_exp_date | date:'dd-MM-yyyy'}} </td>
-</ng-container>
-<!-- Driving License Issue State Column -->
-<ng-container matColumnDef="dlIssueState">
-  <th mat-header-cell *matHeaderCellDef> DL Issue State </th>
-  <td mat-cell *matCellDef="let customer"> {{customer.dl_issue_state}} </td>
-</ng-container>
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let customer">
+        <span [ngClass]="getStatusClass(customer.status)" class="status-badge">
+        </span>
+        <span>{{ customer.status }}</span>
+      </td>
+    </ng-container>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let customer">
-          <button class="action" mat-button color="primary" (click)="onEdit(customer,'view')">
-            <mat-icon>visibility</mat-icon> View
-          </button>
-          <button class="action" mat-button color="warn" class="action" (click)="onEdit(customer,'edit')">
-            <mat-icon>edit</mat-icon> Edit
-          </button>
-        </td>
-      </ng-container>
+    <!-- Created Date Column -->
+    <ng-container matColumnDef="craetedDate">
+      <th mat-header-cell *matHeaderCellDef> Created Date(Start Date) </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.created_date | date:'dd-MM-yyyy'}} </td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    <!-- License Expiry Column -->
+    <ng-container matColumnDef="licenseExpiry">
+      <th mat-header-cell *matHeaderCellDef> License Expiry </th>
+      <td mat-cell *matCellDef="let customer">
+        <span [ngClass]="isLicenseExpired(customer.dl_exp_date) ? 'expired' : ''">
+          {{ customer.dl_exp_date | date: 'dd-MM-yyyy' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Driving License Issue State Column -->
+    <ng-container matColumnDef="dlIssueState">
+      <th mat-header-cell *matHeaderCellDef> DL Issue State </th>
+      <td mat-cell *matCellDef="let customer"> {{customer.dl_issue_state}} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let customer">
+        <button mat-icon-button color="primary" matTooltip="View" (click)="onEdit(customer, 'view')">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Edit" (click)="onEdit(customer, 'edit')">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'selected-row': selectedRow === row}" (click)="selectRow(row)"></tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

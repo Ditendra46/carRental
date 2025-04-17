@@ -6,6 +6,7 @@ import { Cardetails } from '../interfaces/Cardetails.interface';
 import { Car } from '../interfaces/Car.interface';
 import { Router } from '@angular/router';
 import { environment } from 'src/environment';
+import { LoaderService } from '../shared/loader.service';
 
 
 
@@ -22,15 +23,19 @@ export class CarListComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    public router: Router
+    public router: Router,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
     this.loadCars();
+    this.loaderService.isLoading$.subscribe((loading) => {
+      this.loading = false;
+    })
   }
 
   private loadCars(): void {
-    this.loading = true;
+    this.loading = false;
     this.http.get<any>(`${environment.apiBaseUrl}/cars`).subscribe({
       next: (response) => {
         this.cars = response.data;

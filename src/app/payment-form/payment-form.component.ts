@@ -17,6 +17,7 @@ export class PaymentFormComponent implements OnInit {
   selectedRental: any = null; // Currently selected rental
   rentalDetails: any[] = []; // Rental details for the selected rental
   selectedRentalDetails: any[] = []; // Selected rental details
+  isSubmitting: boolean=false;
 
   constructor(private fb: FormBuilder, private http: HttpClient,private snackBar:MatSnackBar) {}
 
@@ -33,7 +34,7 @@ export class PaymentFormComponent implements OnInit {
       name: ['', Validators.required], // Name field
       customer_id: ['', Validators.required], // Customer ID
         note: ['', Validators.maxLength(255)],
-        purpose:['',Validators.required]
+        purpose:['']
     });
   }
 
@@ -149,7 +150,7 @@ submitPayment(): void {
 
   // Extract selected rental detail IDs
   // const selectedRentalDetailIds = this.selectedRentalDetails.map((detail) => detail.rental_detail_id_formatted);
-
+  this.isSubmitting = true;
   const paymentData = {
     customerId: this.paymentForm.get('customer_id')?.value,
    // rentalId: this.selectedRental?.rental_id_formatted || null,
@@ -165,6 +166,7 @@ submitPayment(): void {
   this.http.post(`${environment.apiBaseUrl}/payments/link`, paymentData).subscribe({
     next: (response: any) => {
       if (response.success) {
+        this.isSubmitting = false;
         //alert('Payment successfully applied!');
         this.paymentForm.reset();
         this.selectedRentalDetails = [];

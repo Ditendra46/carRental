@@ -29,6 +29,7 @@ export class CustomerListComponent implements OnInit,AfterViewInit {
   cityOptions: string[] = [];
   stateOptions: string[] = [];
   statusOptions: string[] = [];
+  selectedRow: any;
 
   constructor(
     private http: HttpClient,
@@ -185,5 +186,28 @@ export class CustomerListComponent implements OnInit,AfterViewInit {
   addNewCustomer(): void {
     this.router.navigate(['/addcustomers'], { queryParams: { text: 'Add' } });
   }
-
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'active':
+        return 'status-badge active';
+      case 'prospect':
+        return 'status-badge prospect';
+      case 'blocked':
+        return 'status-badge blocked';
+      case 'hold':
+        return 'status-badge hold';
+      default:
+        return '';
+    }
+  }
+  
+  isLicenseExpired(expiryDate: string): boolean {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    return expiry < today;
+  }
+  
+  selectRow(row: any): void {
+    this.selectedRow = row;
+  }
 }

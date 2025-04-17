@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BikesComponent } from './components/bikes/bikes.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProductsComponent } from './components/products/products.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -49,8 +49,11 @@ import { MatListModule } from '@angular/material/list';
 import { PaymentFormComponent } from './/payment-form/payment-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatChipsModule } from '@angular/material/chips';
 import { PaymentListComponent } from './payment-list/payment-list.component';
-import { PaymentLinkingComponent } from './payment-linking/payment-linking.component';@NgModule({
+import { PaymentLinkingComponent } from './payment-linking/payment-linking.component';
+import { LoaderComponent } from './shared/loader/loader.component';import { HttpLoaderInterceptor } from './shared/http-loader.interceptor';
+@NgModule({
   declarations: [
     AppComponent,
     BikesComponent,
@@ -74,6 +77,7 @@ import { PaymentLinkingComponent } from './payment-linking/payment-linking.compo
     PaymentFormComponent,
     PaymentListComponent,
     PaymentLinkingComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,9 +107,13 @@ import { PaymentLinkingComponent } from './payment-linking/payment-linking.compo
     MatListModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatRadioModule 
+    MatRadioModule ,
+    MatChipsModule
   ],
-  providers: [ValidationService],
+  
+  providers: [ValidationService,
+    {provide:HTTP_INTERCEPTORS,useClass:HttpLoaderInterceptor,multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

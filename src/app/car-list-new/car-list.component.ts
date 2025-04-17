@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { environment } from 'src/environment';
+import { LoaderService } from '../shared/loader.service';
 
 @Component({
   selector: 'app-car-list',
@@ -29,14 +30,19 @@ export class CarListComponent implements OnInit,AfterViewInit {
     vin:''
   };
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  totalRented: number = 0;
+  totalAvailable: number=0;
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    public router: Router
+    public router: Router,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
+    this.loaderService.isLoading$.subscribe((loading) => {
+      this.loading = false;
+    })
     this.loadCars();
     this.cars.filterPredicate = (data: Cardetails, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
@@ -48,7 +54,6 @@ export class CarListComponent implements OnInit,AfterViewInit {
       );
       
     };//this.createFilter(); 
-    
   }
   ngAfterViewInit(): void {
     console.log('Paginator:', this.paginator);
@@ -96,7 +101,7 @@ export class CarListComponent implements OnInit,AfterViewInit {
         const statusSet = new Set<string>();
         const makeSet = new Set<string>();
         const modelSet = new Set<string>();
-
+        this.updateTotalRented()
         this.cars.data.forEach((data: Cardetails) => {
           statusSet.add(data.status);
           makeSet.add(data.make);
@@ -204,5 +209,27 @@ export class CarListComponent implements OnInit,AfterViewInit {
   addNewCar(): void {
     this.router.navigate(['/addCar'], { queryParams: { text: 'Add' } });
 
+  }
+
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'repair':
+        return 'status-badge repair';
+      case 'rented':
+        return 'status-badge rented';
+      case 'sold':
+        return 'status-badge sold';
+      case 'in market':
+        return 'status-badge in-market';
+      default:
+        return '';
+    }
+  }
+  updateTotalRented() {
+    this.totalRented = this.cars.filteredData.filter(car => car.status === 'Rented').length;
+    
+      this.totalAvailable = this.cars.filteredData.filter(car => car.status === 'Available').length;
+      
+  
   }
 }

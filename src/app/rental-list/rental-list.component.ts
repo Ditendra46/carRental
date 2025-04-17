@@ -167,4 +167,18 @@ export class RentalListComponent implements OnInit ,AfterViewInit{
 
     this.router.navigate(['/rent', rental.rental_id], { queryParams: { text: additionalText } });
   }
+  getPaymentStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'paid':
+        return 'paid';
+      case 'partially paid':
+        return 'partially-paid';
+      case 'unpaid':
+        return 'unpaid';
+      case 'over paid':
+        return 'overpaid';
+      default:
+        return '';
+    }
+  }
 }

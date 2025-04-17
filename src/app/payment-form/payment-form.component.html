@@ -57,11 +57,11 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>Payment Method</mat-label>
             <mat-select formControlName="payment_method">
-              <mat-option value="Cash">Cash</mat-option>
-              <mat-option value="Cheque">Cheque</mat-option>
-              <mat-option value="Card">Card</mat-option>
-              <mat-option value="Online Transfer">Online Transfer</mat-option>
-              <mat-option value="Bank Deposit">Bank Deposit</mat-option>
+              <mat-option value="Cash">💵 Cash</mat-option>
+              <mat-option value="Cheque">📝 Cheque</mat-option>
+              <mat-option value="Card">💳 Card</mat-option>
+              <mat-option value="Online Transfer">🏦 Online Transfer</mat-option>
+              <mat-option value="Bank Deposit">🏦 Bank Deposit</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" class="full-width">
@@ -85,8 +85,10 @@
             mat-raised-button
             color="primary"
             (click)="submitPayment()"
+            [disabled]="!paymentForm.valid || isSubmitting"
           >
-            Apply Payment
+          <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+            <span *ngIf="!isSubmitting">Apply Payment</span>
           </button>
         </div>
       </mat-card-content>

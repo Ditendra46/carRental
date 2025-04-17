@@ -1,7 +1,27 @@
-.filters{
+.filters {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-radius: 5px;
+    padding: 7px;
+    /* Light background color */
 }
+
+mat-form-field {
+    border-radius: 6px;
+    margin-right: 16px;
+    width: 250px; /* Adjust width as needed */
+}
+
+mat-icon[matPrefix] {
+    margin-right: 8px;
+}
+
+.total-count {
+    font-weight: bold;
+    margin-top: 16px;
+}
+
 :host ::ng-deep .mat-mdc-paginator-container {
     display: flex !important;
     align-items: center !important;
@@ -12,4 +32,33 @@
     min-height: var(--mat-paginator-container-size) !important;
     background-color: #dadce1 !important; /* Light background color */
     border-top: 10px solid #938888 !important; /* Optional border for separation */
-  }
+}
+
+.payment-status-circle {
+    display: inline-block;
+    width: 12px; /* Adjust size for the circle */
+    height: 12px; /* Adjust size for the circle */
+    border-radius: 50%; /* Makes the element circular */
+    margin-right: 8px; /* Space between the circle and the text */
+}
+
+.payment-status-text {
+    /* font-weight: bold; */
+    font-size: 14px; /* Adjust font size for the text */
+}
+
+.paid {
+    background-color: #4caf50; /* Green */
+}
+
+.partially-paid {
+    background-color: #ffeb3b; /* Yellow */
+}
+
+.unpaid {
+    background-color: #f44336; /* Red */
+}
+
+.overpaid {
+    background-color: #2196f3; /* Blue */
+}
